@@ -1,0 +1,320 @@
+{
+  "version": "0.0.1",
+  "catchAll": {},
+  "startNode": "entry",
+  "nodes": [
+    {
+      "id": "df052970ef",
+      "name": "entry",
+      "next": [
+        {
+          "condition": "true",
+          "node": "Busca"
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-lbs0Re",
+        "say #!builtin_text-okKJBS"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"nomeUsuario\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-K44piM"
+      ]
+    },
+    {
+      "id": "skill-df98d2",
+      "type": "skill-call",
+      "skill": "choice",
+      "name": "Buscar-professor",
+      "flow": "skills/choice-df98d2.flow.json",
+      "next": [
+        {
+          "caption": "User picked [Sim]",
+          "condition": "temp['skill-choice-ret-mzxlohoyiw'] == \"Sim\"",
+          "node": ""
+        },
+        {
+          "caption": "User picked [Não]",
+          "condition": "temp['skill-choice-ret-mzxlohoyiw'] == \"Não\"",
+          "node": ""
+        },
+        {
+          "caption": "On failure",
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": null,
+      "onReceive": null
+    },
+    {
+      "id": "cd9e14b776",
+      "name": "Inserir-professor",
+      "next": [
+        {
+          "condition": "true",
+          "conditionType": "always",
+          "node": ""
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-x0qfZE"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"nomeProfessores\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-Hk_xm6"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "skill-42432f",
+      "type": "skill-call",
+      "skill": "choice",
+      "name": "Buscar-periodo",
+      "flow": "skills/choice-42432f.flow.json",
+      "next": [
+        {
+          "caption": "User picked [Sim]",
+          "condition": "temp['skill-choice-ret-13e2z67jwg'] == \"Sim\"",
+          "node": ""
+        },
+        {
+          "caption": "User picked [Não]",
+          "condition": "temp['skill-choice-ret-13e2z67jwg'] == \"Não\"",
+          "node": ""
+        },
+        {
+          "caption": "On failure",
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": null,
+      "onReceive": null
+    },
+    {
+      "id": "b782d61ee2",
+      "name": "Inserir-periodo",
+      "next": [
+        {
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-t1vNEI"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"periodo\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-g_JSj9"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "skill-36d559",
+      "type": "skill-call",
+      "skill": "choice",
+      "name": "Buscar-discentes",
+      "flow": "skills/choice-36d559.flow.json",
+      "next": [
+        {
+          "caption": "User picked [Sim]",
+          "condition": "temp['skill-choice-ret-2maqnhhn8g'] == \"Sim\"",
+          "node": ""
+        },
+        {
+          "caption": "User picked [Não]",
+          "condition": "temp['skill-choice-ret-2maqnhhn8g'] == \"Não\"",
+          "node": ""
+        },
+        {
+          "caption": "On failure",
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": null,
+      "onReceive": null
+    },
+    {
+      "id": "4345db6c20",
+      "name": "Inserir-discentes",
+      "next": [
+        {
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-N2JRlQ"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"nomeDiscentes\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-Qq8k2L"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "skill-77254f",
+      "type": "skill-call",
+      "skill": "choice",
+      "name": "Buscar-processo",
+      "flow": "skills/choice-77254f.flow.json",
+      "next": [
+        {
+          "caption": "User picked [Sim]",
+          "condition": "temp['skill-choice-ret-42rjqfnkln'] == \"Sim\"",
+          "node": ""
+        },
+        {
+          "caption": "User picked [Não]",
+          "condition": "temp['skill-choice-ret-42rjqfnkln'] == \"Não\"",
+          "node": ""
+        },
+        {
+          "caption": "On failure",
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": null,
+      "onReceive": null
+    },
+    {
+      "id": "dae3a39b99",
+      "name": "Inserir-processo-edital",
+      "next": [
+        {
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-5xkuCM"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"numeroProcessoEdital\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-otXHR8"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "ef4d7ecd85",
+      "name": "Busca-geral",
+      "next": [
+        {
+          "condition": "true",
+          "conditionType": "always",
+          "node": "END"
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-wTpgrh"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"assuntosGerais\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-9d0DlG",
+        "consolidarDados {}",
+        "buscarAtasProporcionais {}",
+        "prepararExibicaoAtas {}",
+        "say #!builtin_text-tFXBs-"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "skill-b19747",
+      "type": "skill-call",
+      "skill": "choice",
+      "name": "Busca",
+      "flow": "skills/choice-b19747.flow.json",
+      "next": [
+        {
+          "caption": "User picked [Departa...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Departamentos\"",
+          "node": "Inserir-departamento"
+        },
+        {
+          "caption": "User picked [Discipl...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Disciplinas\"",
+          "node": "Inserir-disciplina"
+        },
+        {
+          "caption": "User picked [Docentes]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Docentes\"",
+          "node": "Inserir-professor"
+        },
+        {
+          "caption": "User picked [Discent...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Discentes\"",
+          "node": "Inserir-discentes"
+        },
+        {
+          "caption": "User picked [Atas/Pr...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Atas/Processos\"",
+          "node": "Inserir-processo-edital"
+        },
+        {
+          "caption": "User picked [Período...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Período (Data)\"",
+          "node": "Inserir-periodo"
+        },
+        {
+          "caption": "User picked [Progres...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Progressões/Promoções\"",
+          "node": ""
+        },
+        {
+          "caption": "User picked [Enviar ...]",
+          "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Enviar Consulta\"",
+          "node": "Busca-geral"
+        },
+        {
+          "caption": "On failure",
+          "condition": "true",
+          "node": ""
+        }
+      ],
+      "onEnter": null,
+      "onReceive": null
+    },
+    {
+      "id": "686d01bbd5",
+      "name": "Inserir-disciplina",
+      "next": [
+        {
+          "condition": "true",
+          "conditionType": "always",
+          "node": ""
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-x0qfZE"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"nomeDisciplina\",\"value\":\"{{event.payload.text}}\"}",
+        "say #!builtin_text-Hk_xm6"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "c13f4b545e",
+      "name": "Inserir-departamento",
+      "next": [
+        {
+          "condition": "true",
+          "conditionType": "always",
+          "node": ""
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-x0qfZE"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"nomeDepartamento\",\"value\":\"{{event.payload.text}}\"}",
+        "departamentos {}",
+        "say #!builtin_text-Hk_xm6"
+      ],
+      "type": "standard"
+    }
+  ]
+}

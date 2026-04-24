@@ -1,0 +1,119 @@
+{
+  "version": "0.0.1",
+  "catchAll": {
+    "next": []
+  },
+  "startNode": "entry",
+  "skillData": {
+    "randomId": "6f6x9it6pr",
+    "contentId": "builtin_single-choice-xU2lAX",
+    "invalidContentId": "",
+    "keywords": {
+      "Departamentos": [
+        "Departamentos"
+      ],
+      "Disciplinas": [
+        "Disciplinas"
+      ],
+      "Docentes": [
+        "Docentes"
+      ],
+      "Discentes": [
+        "Discentes"
+      ],
+      "Atas/Processos": [
+        "Atas/Processos"
+      ],
+      "Período (Data)": [
+        "Período (Data)"
+      ],
+      "Progressões/Promoções": [
+        "Progressões/Promoções"
+      ],
+      "Outros Assuntos": [
+        "Outros Assuntos"
+      ],
+      "Enviar Consulta": [
+        "Enviar Consulta"
+      ]
+    },
+    "config": {
+      "nbMaxRetries": 3,
+      "repeatChoicesOnInvalid": false,
+      "variableName": ""
+    }
+  },
+  "nodes": [
+    {
+      "name": "entry",
+      "onEnter": [
+        "builtin/setVariable {\"type\":\"temp\",\"name\":\"skill-choice-invalid-count-6f6x9it6pr\",\"value\": 0}",
+        "builtin/setVariable {\"type\":\"temp\",\"name\":\"skill-choice-valid-6f6x9it6pr\",\"value\": null}",
+        "builtin/setVariable {\"type\":\"temp\",\"name\":\"skill-choice-ret-6f6x9it6pr\",\"value\": null}",
+        "say #!builtin_single-choice-xU2lAX {\"skill\":\"choice\"}"
+      ],
+      "next": [
+        {
+          "condition": "true",
+          "node": "parse"
+        }
+      ],
+      "id": "833667"
+    },
+    {
+      "name": "parse",
+      "onReceive": [
+        "basic-skills/choice_parse_answer {\"randomId\":\"6f6x9it6pr\",\"contentId\":\"builtin_single-choice-xU2lAX\",\"invalidContentId\":\"\",\"keywords\":{\"Departamentos\":[\"Departamentos\"],\"Disciplinas\":[\"Disciplinas\"],\"Docentes\":[\"Docentes\"],\"Discentes\":[\"Discentes\"],\"Atas/Processos\":[\"Atas/Processos\"],\"Período (Data)\":[\"Período (Data)\"],\"Progressões/Promoções\":[\"Progressões/Promoções\"],\"Outros Assuntos\":[\"Outros Assuntos\"],\"Enviar Consulta\":[\"Enviar Consulta\"]},\"config\":{\"nbMaxRetries\":3,\"repeatChoicesOnInvalid\":false,\"variableName\":\"\"}}"
+      ],
+      "next": [
+        {
+          "condition": "temp['skill-choice-valid-6f6x9it6pr'] === true",
+          "node": "#"
+        },
+        {
+          "condition": "true",
+          "node": "invalid"
+        }
+      ],
+      "triggers": [
+        {
+          "conditions": [
+            {
+              "id": "always"
+            }
+          ]
+        }
+      ],
+      "onEnter": [],
+      "id": "843174"
+    },
+    {
+      "name": "invalid",
+      "onEnter": [
+        "basic-skills/choice_invalid_answer {\"randomId\":\"6f6x9it6pr\"}"
+      ],
+      "next": [
+        {
+          "condition": "Number(temp['skill-choice-invalid-count-6f6x9it6pr']) > Number(3)",
+          "node": "#"
+        },
+        {
+          "condition": "true",
+          "node": "sorry"
+        }
+      ],
+      "id": "131617"
+    },
+    {
+      "name": "sorry",
+      "onEnter": [],
+      "next": [
+        {
+          "condition": "true",
+          "node": "parse"
+        }
+      ],
+      "id": "356517"
+    }
+  ]
+}

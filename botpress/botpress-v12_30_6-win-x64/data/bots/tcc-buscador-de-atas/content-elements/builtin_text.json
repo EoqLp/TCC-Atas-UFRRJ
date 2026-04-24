@@ -1,0 +1,353 @@
+[
+  {
+    "id": "builtin_text-pSsHWg",
+    "formData": {
+      "text$en": "👋, {{user.nickname}}!",
+      "variations$en": [
+        "Hello, {{user.nickname}}!",
+        "Welcome to Botpress, {{user.nickname}}!"
+      ],
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T00:57:36.026Z",
+    "modifiedOn": "2026-03-26T04:22:14.762Z"
+  },
+  {
+    "id": "builtin_text-AY5SSW",
+    "formData": {
+      "text$en": "This is the first time we speak 🤖",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T00:59:51.118Z",
+    "modifiedOn": "2026-03-26T04:22:14.778Z"
+  },
+  {
+    "id": "builtin_text-bFsOmf",
+    "formData": {
+      "text$en": "We already spoke {{temp.$r}} times!",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T01:00:37.593Z",
+    "modifiedOn": "2026-03-26T04:22:14.778Z"
+  },
+  {
+    "id": "builtin_text-TtzrCV",
+    "formData": {
+      "text$en": "Alright, I have forgotten your name.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T01:06:41.963Z",
+    "modifiedOn": "2026-03-26T04:22:14.794Z"
+  },
+  {
+    "id": "builtin_text-z0J9qh",
+    "formData": {
+      "text$en": "May I know your name please?",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T01:08:41.241Z",
+    "modifiedOn": "2026-03-26T04:22:14.810Z"
+  },
+  {
+    "id": "builtin_text-X069Le",
+    "formData": {
+      "text$en": "Try saying something like \"forget my name\"!",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T01:16:53.227Z",
+    "modifiedOn": "2026-03-26T04:22:14.830Z"
+  },
+  {
+    "id": "builtin_text-kKQ8C3",
+    "formData": {
+      "text$en": "(To see how this works, double-click anywhere on the flow and go to the \"Transitions\" panel)",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-14T01:17:55.317Z",
+    "modifiedOn": "2026-03-26T04:22:14.842Z"
+  },
+  {
+    "id": "builtin_text-lbs0Re",
+    "formData": {
+      "text$en": "Olá, sou o DocBot de atas.",
+      "typing$en": true,
+      "markdown$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T16:41:48.068Z",
+    "modifiedOn": "2026-04-08T01:57:25.871Z"
+  },
+  {
+    "id": "builtin_text-sRxAPP",
+    "formData": {
+      "text$en": "Bot Memory is used by the bot to store information about a conversation. Here's an example.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T16:55:01.413Z",
+    "modifiedOn": "2026-03-26T04:22:14.867Z"
+  },
+  {
+    "id": "builtin_text-6RY1f5",
+    "formData": {
+      "text$en": "A bot could ask questions that are similar but have different meanings. To differentiate between the meanings of these questions, we use Contexts.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T17:02:32.795Z",
+    "modifiedOn": "2026-03-26T04:22:14.873Z"
+  },
+  {
+    "id": "builtin_text-UP2ozm",
+    "formData": {
+      "text$en": "Please pick an animal from the choices, I'm not a Zoologist.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T18:05:07.711Z",
+    "modifiedOn": "2026-03-26T04:22:14.895Z"
+  },
+  {
+    "id": "builtin_text-lALv5x",
+    "formData": {
+      "text$en": "Please ask questions about that animal, like its life span or its habitat.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T18:14:48.625Z",
+    "modifiedOn": "2026-03-26T04:22:14.905Z"
+  },
+  {
+    "id": "builtin_text-bOU5xw",
+    "formData": {
+      "text$en": "Please refer to our [documentation](https://botpress.com/docs/build/memory) to learn more about Bot Memory.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T18:29:05.998Z",
+    "modifiedOn": "2026-03-26T04:22:14.924Z"
+  },
+  {
+    "id": "builtin_text-SKQxXN",
+    "formData": {
+      "text$en": "Ask me something thats included in the choices. Let's try again.",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T18:40:32.874Z",
+    "modifiedOn": "2026-03-26T04:22:14.938Z"
+  },
+  {
+    "id": "builtin_text-T8Oa8M",
+    "formData": {
+      "text$en": "To learn more about how to setup a Contextual FAQ, please refer to our [tutorial](https://botpress.com/docs/tutorials/contextual-faq)",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T19:53:14.411Z",
+    "modifiedOn": "2026-03-26T04:22:14.953Z"
+  },
+  {
+    "id": "builtin_text-yFOIFD",
+    "formData": {
+      "text$en": "Tell me if you need help!",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T22:02:33.058Z",
+    "modifiedOn": "2026-03-26T04:22:14.970Z"
+  },
+  {
+    "id": "builtin_text-error",
+    "formData": {
+      "text$en": "😯 Oops! We've got a problem. Please try something else while we're fixing it 🔨",
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-09-03T18:58:10.702Z",
+    "modifiedOn": "2026-03-26T04:22:14.984Z"
+  },
+  {
+    "id": "builtin_text--icAL0",
+    "formData": {
+      "markdown$en": true,
+      "typing$en": true,
+      "text$en": "{{temp.endMessage}}"
+    },
+    "createdBy": "admin",
+    "createdOn": "2021-07-23T19:07:46.506Z",
+    "modifiedOn": "2026-03-26T04:22:14.984Z"
+  },
+  {
+    "id": "builtin_text-okKJBS",
+    "formData": {
+      "text$en": "Para começar, me diga seu nome.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T01:57:55.351Z",
+    "modifiedOn": "2026-04-08T01:57:55.351Z"
+  },
+  {
+    "id": "builtin_text-K44piM",
+    "formData": {
+      "text$en": "Legal, {{session.nomeUsuario}}! Vamos prosseguir...",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:02:23.953Z",
+    "modifiedOn": "2026-04-08T02:02:23.953Z"
+  },
+  {
+    "id": "builtin_text-x0qfZE",
+    "formData": {
+      "text$en": "Digite o nome do(s) departamento(s) que você deseja buscar na ata.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:06:10.754Z",
+    "modifiedOn": "2026-04-24T03:06:30.334Z"
+  },
+  {
+    "id": "builtin_text-Hk_xm6",
+    "formData": {
+      "text$en": "Legal, vamos buscar atas que contenham os seguintes departamentos: {{session.nomeDepartamento}}",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:07:55.490Z",
+    "modifiedOn": "2026-04-24T03:07:13.984Z"
+  },
+  {
+    "id": "builtin_text-MWt2Sm",
+    "formData": {
+      "text$en": "Não entendi sua solicitação. Vamos voltar para o passo anterior.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:13:37.123Z",
+    "modifiedOn": "2026-04-08T02:13:37.123Z"
+  },
+  {
+    "id": "builtin_text-t1vNEI",
+    "formData": {
+      "text$en": "Perfeito! Insira o período no seguinte formato: Mês de Ano",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:16:55.651Z",
+    "modifiedOn": "2026-04-08T02:16:55.651Z"
+  },
+  {
+    "id": "builtin_text-g_JSj9",
+    "formData": {
+      "text$en": "Beleza! Então estamos buscando atas de {{session.periodo}}",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:17:50.481Z",
+    "modifiedOn": "2026-04-08T02:17:50.481Z"
+  },
+  {
+    "id": "builtin_text-N2JRlQ",
+    "formData": {
+      "text$en": "Ok, então me diga os nomes dos discentes que você gostaria de inserir na busca. Separe os nomes por vírgula ",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:26:56.259Z",
+    "modifiedOn": "2026-04-08T02:26:56.259Z"
+  },
+  {
+    "id": "builtin_text-Qq8k2L",
+    "formData": {
+      "text$en": "Vamos adicionar {{session.nomeDiscentes}} na busca.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:27:55.105Z",
+    "modifiedOn": "2026-04-08T02:27:55.105Z"
+  },
+  {
+    "id": "builtin_text-5xkuCM",
+    "formData": {
+      "text$en": "Boa! Então me diga qual é o número do processo ou edital que você deseja adicionar na busca.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:34:00.217Z",
+    "modifiedOn": "2026-04-08T02:36:52.612Z"
+  },
+  {
+    "id": "builtin_text-otXHR8",
+    "formData": {
+      "text$en": "Beleza! O processo/edital {{session.processo}} foi adicionado a busca.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:34:44.098Z",
+    "modifiedOn": "2026-04-08T02:37:06.578Z"
+  },
+  {
+    "id": "builtin_text-wTpgrh",
+    "formData": {
+      "text$en": "Para finalizar, me diga mais algumas palavras chaves para enriquecer nossa busca. Separe os conteúdos por vírgula para facilitar a busca. Você pode me falar sobre alguma disciplica específica, se deseja saber da progressão ou promoção de algum docente, informes e assuntos gerais, etc.",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:40:10.416Z",
+    "modifiedOn": "2026-04-08T02:40:10.416Z"
+  },
+  {
+    "id": "builtin_text-9d0DlG",
+    "formData": {
+      "text$en": "Perfeito {{session.nomeUsuario}}, então vamos buscar o seguinte:\n\nProfessores: {{session.nomeProfessores}}\nPeriodo: {{session.periodo}}\nDiscentes: {{session.nomeDiscentes}}\nProcessos/Editais: {{session.numeroProcessoEdital}}\nOutros assuntos: {{session.assuntosGerais}}\n",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:42:17.977Z",
+    "modifiedOn": "2026-04-08T02:48:46.657Z"
+  },
+  {
+    "id": "builtin_text-xWjsXh",
+    "formData": {
+      "text$en": "{{temp.topAtas[0].titulo}}",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-13T23:48:25.061Z",
+    "modifiedOn": "2026-04-14T03:10:02.862Z"
+  },
+  {
+    "id": "builtin_text-tFXBs-",
+    "formData": {
+      "text$en": "1️⃣ {{temp.ata1_nome}}\n📊 Match: {{temp.ata1_pct}}%\n🔗 Link: {{temp.ata1_link}}\n\n2️⃣ {{temp.ata2_nome}}\n📊 Match: {{temp.ata2_pct}}%\n🔗 Link: {{temp.ata2_link}}",
+      "markdown$en": true,
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-14T03:14:47.328Z",
+    "modifiedOn": "2026-04-14T03:19:49.870Z"
+  }
+]

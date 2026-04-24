@@ -1,0 +1,12 @@
+# Bloquear executáveis pesados
+*.exe
+*.dll
+*.bin
+
+# Bloquear pastas de sistema do Botpress (muito grandes)
+botpress/botpress-v12_30_6-win-x64/bin/
+botpress/botpress-v12_30_6-win-x64/bindings/
+botpress/botpress-v12_30_6-win-x64/modules/.cache/
+
+# Bloquear node_modules
+node_modules/

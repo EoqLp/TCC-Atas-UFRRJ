@@ -1,0 +1,215 @@
+[
+  {
+    "id": "builtin_single-choice-elJyV5",
+    "formData": {
+      "text$en": "a",
+      "choices$en": [
+        {
+          "title": "1",
+          "value": "1"
+        },
+        {
+          "title": "2",
+          "value": "2"
+        }
+      ],
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2018-05-17T14:29:04.897Z",
+    "modifiedOn": "2026-03-26T04:22:14.698Z"
+  },
+  {
+    "id": "builtin_single-choice-mrFFU_",
+    "formData": {
+      "text$en": "What would you like to know?",
+      "choices$en": [
+        {
+          "title": "What is a Context?",
+          "value": "context"
+        },
+        {
+          "title": "What is Bot Memory?",
+          "value": "memory"
+        }
+      ],
+      "typing$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T16:42:46.073Z",
+    "modifiedOn": "2026-03-26T04:22:14.731Z"
+  },
+  {
+    "id": "builtin_single-choice-yOBfeA",
+    "formData": {
+      "text$en": "Okay, let's use a simple example. Let's talk about animals. Pick one.",
+      "choices$en": [
+        {
+          "title": "Monkey",
+          "value": "monkey"
+        },
+        {
+          "title": "Giraffe",
+          "value": "giraffe"
+        }
+      ],
+      "typing$en": true,
+      "markdown$en": true,
+      "dropdownPlaceholder$en": "Select option...",
+      "disableFreeText$en": false,
+      "isDropdown$en": true
+    },
+    "createdBy": "admin",
+    "createdOn": "2019-03-25T18:12:55.197Z",
+    "modifiedOn": "2026-03-26T04:22:14.753Z"
+  },
+  {
+    "id": "builtin_single-choice-MoVBTp",
+    "formData": {
+      "dropdownPlaceholder$en": "Select...",
+      "choices$en": [
+        {
+          "title": "Sim",
+          "value": "Sim"
+        },
+        {
+          "title": "Não",
+          "value": "Não"
+        }
+      ],
+      "markdown$en": true,
+      "disableFreeText$en": false,
+      "displayInMessage$en": false,
+      "typing$en": true,
+      "text$en": "Você deseja buscar atas de algum professor específico do DCC?"
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:04:19.375Z",
+    "modifiedOn": "2026-04-08T02:04:19.375Z"
+  },
+  {
+    "id": "builtin_single-choice-jiLmhE",
+    "formData": {
+      "dropdownPlaceholder$en": "Select...",
+      "choices$en": [
+        {
+          "title": "Sim",
+          "value": "Sim"
+        },
+        {
+          "title": "Não",
+          "value": "Não"
+        }
+      ],
+      "markdown$en": true,
+      "disableFreeText$en": false,
+      "displayInMessage$en": false,
+      "typing$en": true,
+      "text$en": "Agora me diga, deseja buscar atas de um mês/ano específico? Ex: Junho de 2026"
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:11:56.275Z",
+    "modifiedOn": "2026-04-08T02:11:56.275Z"
+  },
+  {
+    "id": "builtin_single-choice-x7Ln7H",
+    "formData": {
+      "dropdownPlaceholder$en": "Select...",
+      "choices$en": [
+        {
+          "title": "Sim",
+          "value": "Sim"
+        },
+        {
+          "title": "Não",
+          "value": "Não"
+        }
+      ],
+      "markdown$en": true,
+      "disableFreeText$en": false,
+      "displayInMessage$en": false,
+      "typing$en": true,
+      "text$en": "Certo! Me informa agora se deseja inserir o nome de algum discente para a busca?"
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:25:09.513Z",
+    "modifiedOn": "2026-04-08T02:25:09.513Z"
+  },
+  {
+    "id": "builtin_single-choice-zV_a-A",
+    "formData": {
+      "dropdownPlaceholder$en": "Select...",
+      "choices$en": [
+        {
+          "title": "Sim",
+          "value": "Sim"
+        },
+        {
+          "title": "Não",
+          "value": "Não"
+        }
+      ],
+      "markdown$en": true,
+      "disableFreeText$en": false,
+      "displayInMessage$en": false,
+      "typing$en": true,
+      "text$en": "Deseja inserir algum processo ou edital mencionado no documento?"
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-08T02:32:03.503Z",
+    "modifiedOn": "2026-04-08T02:36:13.102Z"
+  },
+  {
+    "id": "builtin_single-choice-xU2lAX",
+    "formData": {
+      "dropdownPlaceholder$en": "Select...",
+      "choices$en": [
+        {
+          "title": "Departamentos",
+          "value": "Departamentos"
+        },
+        {
+          "title": "Disciplinas",
+          "value": "Disciplinas"
+        },
+        {
+          "title": "Docentes",
+          "value": "Docentes"
+        },
+        {
+          "title": "Discentes",
+          "value": "Discentes"
+        },
+        {
+          "title": "Atas/Processos",
+          "value": "Atas/Processos"
+        },
+        {
+          "title": "Período (Data)",
+          "value": "Período (Data)"
+        },
+        {
+          "title": "Progressões/Promoções",
+          "value": "Progressões/Promoções"
+        },
+        {
+          "title": "Outros Assuntos",
+          "value": "Outros Assuntos"
+        },
+        {
+          "title": "Enviar Consulta",
+          "value": "Enviar Consulta"
+        }
+      ],
+      "markdown$en": true,
+      "disableFreeText$en": false,
+      "displayInMessage$en": false,
+      "typing$en": true,
+      "text$en": "O que você deseja inserir para a busca agora?",
+      "isDropdown$en": false
+    },
+    "createdBy": "admin",
+    "createdOn": "2026-04-14T13:17:51.389Z",
+    "modifiedOn": "2026-04-14T13:42:17.013Z"
+  }
+]
