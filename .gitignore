@@ -10,3 +10,6 @@ botpress/botpress-v12_30_6-win-x64/modules/.cache/
 
 # Bloquear node_modules
 node_modules/
+
+# Configurações locais do Claude Code
+.claude/

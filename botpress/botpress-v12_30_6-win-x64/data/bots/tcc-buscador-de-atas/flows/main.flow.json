@@ -54,7 +54,7 @@
         {
           "condition": "true",
           "conditionType": "always",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": [
@@ -98,7 +98,7 @@
       "next": [
         {
           "condition": "true",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": [
@@ -142,7 +142,7 @@
       "next": [
         {
           "condition": "true",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": [
@@ -186,7 +186,7 @@
       "next": [
         {
           "condition": "true",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": [
@@ -261,7 +261,7 @@
         {
           "caption": "User picked [Progres...]",
           "condition": "temp['skill-choice-ret-6f6x9it6pr'] == \"Progressões/Promoções\"",
-          "node": ""
+          "node": "Inserir-progressoes"
         },
         {
           "caption": "User picked [Enviar ...]",
@@ -271,7 +271,7 @@
         {
           "caption": "On failure",
           "condition": "true",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": null,
@@ -284,7 +284,7 @@
         {
           "condition": "true",
           "conditionType": "always",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": [
@@ -303,7 +303,7 @@
         {
           "condition": "true",
           "conditionType": "always",
-          "node": ""
+          "node": "Busca"
         }
       ],
       "onEnter": [
@@ -312,6 +312,25 @@
       "onReceive": [
         "builtin/setVariable {\"type\":\"session\",\"name\":\"nomeDepartamento\",\"value\":\"{{event.payload.text}}\"}",
         "departamentos {}",
+        "say #!builtin_text-Hk_xm6"
+      ],
+      "type": "standard"
+    },
+    {
+      "id": "a7f3e2d1c9",
+      "name": "Inserir-progressoes",
+      "next": [
+        {
+          "condition": "true",
+          "conditionType": "always",
+          "node": "Busca"
+        }
+      ],
+      "onEnter": [
+        "say #!builtin_text-x0qfZE"
+      ],
+      "onReceive": [
+        "builtin/setVariable {\"type\":\"session\",\"name\":\"termoProgressao\",\"value\":\"{{event.payload.text}}\"}",
         "say #!builtin_text-Hk_xm6"
       ],
       "type": "standard"

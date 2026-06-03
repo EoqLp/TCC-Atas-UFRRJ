@@ -1,15 +1,13 @@
-const express = require('express');
+﻿const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const pdf = require('pdf-parse');
 const { Client } = require('@elastic/elasticsearch');
 require('dotenv').config();
 
-// Ignora erro de certificado autoassinado para o ambiente de desenvolvimento
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const app = express();
-// PORTA DEFINIDA COMO 3000 PARA O INDEXADOR
 const port = 3000;
 
 const pastaDocs = process.env.DOCS_PATH || path.join(process.cwd(), 'docs');
@@ -17,8 +15,6 @@ if (!fs.existsSync(pastaDocs)) {
   fs.mkdirSync(pastaDocs, { recursive: true });
 }
 
-// CONFIGURAÇÃO PARA SERVIR OS ARQUIVOS PDF FISICAMENTE
-// Isso permite acessar a ata via: http://localhost:3000/arquivos/NOME_DO_ARQUIVO.pdf
 app.use('/arquivos', express.static(pastaDocs));
 
 const indice = process.env.INDEX_NAME || 'documentos';
@@ -48,24 +44,67 @@ const es = new Client({
   enableMetaHeader: true
 });
 
+// ── Extrai data do nome do arquivo (ex: "ata_marco_2026.pdf" → "2026-03-01") ──
+function extrairDataDoNome(nome) {
+  const mesesPT = {
+    jan: '01', janeiro: '01', fev: '02', fevereiro: '02',
+    mar: '03', marco: '03', abr: '04', abril: '04',
+    mai: '05', maio: '05', jun: '06', junho: '06',
+    jul: '07', julho: '07', ago: '08', agosto: '08',
+    set: '09', setembro: '09', out: '10', outubro: '10',
+    nov: '11', novembro: '11', dez: '12', dezembro: '12'
+  };
+
+  // Normaliza: minúsculas, sem acento, sem extensão
+  const n = nome.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/\.[^/.]+$/, '');
+
+  // Padrão: YYYY-MM ou YYYY_MM
+  let m = n.match(/(\d{4})[-_](\d{2})/);
+  if (m) return `${m[1]}-${m[2]}-01`;
+
+  // Padrão: nome do mês (mais longo primeiro para evitar match parcial)
+  const nomesMeses = Object.keys(mesesPT).sort((a, b) => b.length - a.length);
+  for (const mes of nomesMeses) {
+    const idx = n.indexOf(mes);
+    if (idx === -1) continue;
+    const depois = n.slice(idx).match(/(\d{4})/);
+    if (depois) return `${depois[1]}-${mesesPT[mes]}-01`;
+    const antes = n.slice(0, idx).match(/(\d{4})/);
+    if (antes) return `${antes[1]}-${mesesPT[mes]}-01`;
+  }
+
+  return null;
+}
+
 async function ensureIndex() {
   try {
     const existsRes = await es.indices.exists({ index: indice });
     const exists = (typeof existsRes === 'boolean' ? existsRes : (existsRes && existsRes.body)) || false;
-    
+
     if (!exists) {
       await es.indices.create({
         index: indice,
         body: {
           mappings: {
             properties: {
-              titulo: { type: 'text' },
+              titulo:  { type: 'text' },
               conteudo: { type: 'text' },
-              data: { type: 'date' }
+              data:    { type: 'date' },
+              dataAta: { type: 'date', format: 'yyyy-MM-dd' }
             }
           }
         }
       });
+    } else {
+      // Adiciona o campo dataAta caso o índice já exista sem ele
+      try {
+        await es.indices.putMapping({
+          index: indice,
+          body: { properties: { dataAta: { type: 'date', format: 'yyyy-MM-dd' } } }
+        });
+      } catch (_) {}
     }
   } catch (err) {
     console.error('Falha ao validar o índice:', err.message);
@@ -101,11 +140,18 @@ async function indexarArquivos() {
       const conteudo = await lerConteudoArquivo(caminho);
       if (!conteudo) continue;
 
+      const dataAta = extrairDataDoNome(arquivo);
+
       await es.index({
         index: indice,
-        body: { titulo: arquivo, conteudo, data: new Date() }
+        body: {
+          titulo: arquivo,
+          conteudo,
+          data: new Date(),
+          ...(dataAta && { dataAta })
+        }
       });
-      console.log(`> ${arquivo} enviado.`);
+      console.log(`> ${arquivo} enviado${dataAta ? ` (data: ${dataAta})` : ''}.`);
     } catch (err) {
       console.error(`Erro no arquivo ${arquivo}:`, err.message);
     }
@@ -125,63 +171,99 @@ app.all('/indexar', async (_req, res) => {
 app.get('/', (_req, res) => res.send('Indexador Ativo na Porta 3000'));
 
 app.get('/buscar', async (req, res) => {
-  let pergunta = req.query.q;
+  let pergunta   = req.query.q          || '';
+  const deptoNome  = req.query.depto_nome  || '';
+  const deptoSigla = req.query.depto_sigla || '';
+  const dataInicio = req.query.de          || ''; // YYYY-MM
+  const dataFim    = req.query.ate         || ''; // YYYY-MM
 
-  if (!pergunta) {
-    return res.status(400).json({ erro: "Cade a pergunta?" });
+  const temAlgumFiltro = pergunta || deptoNome || deptoSigla || dataInicio || dataFim;
+  if (!temAlgumFiltro) {
+    return res.status(400).json({ erro: 'Nenhum critério de busca informado.' });
   }
 
   try {
-    // LIMPEZA: Traduz caracteres especiais que o Botpress envia
-    pergunta = pergunta
-      .replace(/&#x2F;/g, '/')
-      .replace(/&quot;/g, '"')
-      .replace(/&amp;/g, '&');
+    if (pergunta) {
+      pergunta = pergunta
+        .replace(/&#x2F;/g, '/')
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, '&');
+    }
+
+    const boolQuery = {};
+
+    // MUST — texto geral
+    if (pergunta) {
+      boolQuery.must = [{ match: { conteudo: pergunta } }];
+    }
+
+    // SHOULD — nome OU sigla do departamento (busca OR)
+    if (deptoNome || deptoSigla) {
+      boolQuery.should = [];
+      if (deptoNome)  boolQuery.should.push({ match_phrase: { conteudo: deptoNome } });
+      if (deptoSigla) boolQuery.should.push({ match: { conteudo: deptoSigla } });
+      // minimum_should_match garante que pelo menos uma das cláusulas should case
+      boolQuery.minimum_should_match = 1;
+    }
+
+    // FILTER — intervalo de datas (não afeta score, só filtra)
+    if (dataInicio || dataFim) {
+      const range = {};
+      if (dataInicio) {
+        range.gte = `${dataInicio}-01`;
+      }
+      if (dataFim) {
+        const [ano, mes] = dataFim.split('-');
+        const ultimoDia = new Date(parseInt(ano), parseInt(mes), 0).getDate();
+        range.lte = `${dataFim}-${String(ultimoDia).padStart(2, '0')}`;
+      }
+      boolQuery.filter = [{ range: { dataAta: range } }];
+    }
 
     const resultado = await es.search({
       index: indice,
       body: {
-        query: {
-          match: { conteudo: pergunta }
-        },
+        query: { bool: boolQuery },
         highlight: {
-          fields: { 
+          fields: {
             conteudo: {
-              "type": "plain",
-              "fragment_size": 250,
-              "number_of_fragments": 1
-            } 
+              type: 'plain',
+              fragment_size: 250,
+              number_of_fragments: 1
+            }
           }
         },
         size: 3
       }
     });
 
-    const hits = (resultado.body && resultado.body.hits) ? resultado.body.hits.hits : 
-                 (resultado.hits ? resultado.hits.hits : []);
+    const hits = (resultado.body && resultado.body.hits)
+      ? resultado.body.hits.hits
+      : (resultado.hits ? resultado.hits.hits : []);
 
     const respostas = hits.map(doc => {
       let trechoFinal = '';
       const source = doc._source || {};
-      
+
       if (doc.highlight && doc.highlight.conteudo && doc.highlight.conteudo.length > 0) {
         trechoFinal = doc.highlight.conteudo[0];
       } else if (source.conteudo) {
         trechoFinal = source.conteudo.substring(0, 400);
       } else {
-        trechoFinal = "Trecho não disponível";
+        trechoFinal = 'Trecho não disponível';
       }
 
       return {
         titulo: source.titulo || 'Ata_Sem_Nome.pdf',
-        trecho: trechoFinal
+        trecho: trechoFinal,
+        score: doc._score
       };
     });
 
     res.json(respostas);
   } catch (erro) {
     console.error('Erro na busca:', erro.message);
-    res.status(500).json({ erro: "Erro ao processar busca", detalhes: erro.message });
+    res.status(500).json({ erro: 'Erro ao processar busca', detalhes: erro.message });
   }
 });
 
