@@ -1,3 +1,33 @@
 \chapter{Experimentos}\label{chp:EXPERIMENTOS}
 
-Este capítulo falará da solução em execução, ou seja, quais ferramentas escolhidas e seus motivos, como ele foi desenvolvido e como ele atuou em comparação aos trabalhos relacionados.
+Este capítulo descreve a implementação da solução proposta, apresentando as ferramentas e bibliotecas escolhidas para cada componente, a forma como eles foram desenvolvidos e o ambiente necessário para sua execução.
+
+\section{Arquitetura da Solução}
+
+A solução é composta por quatro componentes principais que se comunicam entre si: o \textbf{Botpress}, responsável pela interface conversacional e pelo fluxo de diálogo com o usuário; o \textbf{Elasticsearch}, responsável pelo armazenamento e pela busca por similaridade nas atas; o \textbf{indexador}, um servidor desenvolvido em Node.js responsável por extrair o conteúdo dos arquivos PDF e disponibilizá-lo ao Elasticsearch; e um \textbf{bot do Discord}, que oferece um canal alternativo de comunicação com o usuário, repassando as mensagens recebidas para o Botpress.
+
+O fluxo de uma consulta ocorre da seguinte forma: o usuário envia uma pergunta pelo Botpress ou pelo Discord, que a encaminha ao indexador por meio de uma requisição HTTP; o indexador, por sua vez, monta uma consulta ao Elasticsearch e retorna os trechos das atas mais relevantes para a pergunta realizada.
+
+\section{Indexador de Documentos}
+
+O indexador foi desenvolvido em \textbf{Node.js} \cite{nodejs-docs}, utilizando o framework \textbf{Express} \cite{expressjs-docs} para expor uma API REST com três rotas principais:
+
+\begin{itemize}
+  \item \texttt{/indexar}: percorre a pasta de documentos configurada, extrai o texto de cada arquivo PDF por meio da biblioteca \textbf{pdf-parse} \cite{pdfparse-npm} e envia o conteúdo extraído ao Elasticsearch;
+  \item \texttt{/buscar}: recebe os critérios de busca informados pelo usuário (discente, docente, disciplina, processo, progressão, assunto, departamento e intervalo de datas) e monta dinamicamente uma consulta no formato \textit{Query DSL} do Elasticsearch, combinando cláusulas \texttt{match} e \texttt{match\_phrase} com pesos (\textit{boost}) distintos para cada campo, de modo a priorizar os critérios mais específicos;
+  \item \texttt{/arquivos}: disponibiliza o acesso direto aos arquivos PDF originais por meio de uma rota estática.
+\end{itemize}
+
+A comunicação entre o indexador e o Elasticsearch é realizada por meio do cliente oficial \textbf{@elastic/elasticsearch} \cite{elasticsearch-js}, configurado com autenticação por usuário e senha e com validação do certificado TLS do servidor. As configurações sensíveis, como a URL do Elasticsearch, as credenciais de acesso, o caminho da pasta de documentos e o nome do índice utilizado, são definidas em variáveis de ambiente, carregadas por meio da biblioteca \textbf{dotenv} \cite{dotenv-npm} a partir de um arquivo \texttt{.env}, evitando que informações sensíveis fiquem expostas diretamente no código-fonte.
+
+Cada documento indexado é armazenado com os campos \texttt{titulo}, \texttt{conteudo}, \texttt{data} (data de indexação) e \texttt{dataAta}. Esse último campo é preenchido automaticamente a partir do nome do arquivo, reconhecendo tanto o padrão numérico (\texttt{AAAA-MM} ou \texttt{AAAA\_MM}) quanto nomes de meses por extenso ou abreviados em português, permitindo que as buscas sejam filtradas por intervalo de datas.
+
+\section{Integração com o Discord}
+
+Como canal alternativo de acesso ao chatbot, foi desenvolvido um bot para o \textbf{Discord} utilizando a biblioteca \textbf{discord.js} \cite{discordjs-docs}. O bot escuta as mensagens enviadas em um canal específico e repassa o conteúdo para o Botpress por meio de uma requisição HTTP feita com a biblioteca \textbf{axios} \cite{axios-npm}, retornando ao usuário as respostas e os menus de opções gerados pelo fluxo de conversa.
+
+Antes do envio ao Botpress, as mensagens passam por um filtro de \textit{stop words}, composto por mais de 300 termos entre artigos, preposições, conjunções, gírias e expressões coloquiais comuns em mensagens de chat, removendo ruídos linguísticos e mantendo apenas as palavras com maior valor semântico para a busca.
+
+\section{Ambiente de Desenvolvimento}
+
+O indexador e o bot do Discord exigem o \textbf{Node.js} na versão 20 ou superior. Essa exigência decorre do uso do prefixo \texttt{node:} em módulos internos e de funcionalidades da \textit{Fetch API} (como a classe \texttt{File}), utilizadas internamente pelas dependências do projeto e disponíveis apenas a partir dessa versão; em versões anteriores do Node.js, a execução do indexador resulta em erros de módulo não encontrado. As dependências do projeto (\texttt{express}, \texttt{pdf-parse}, \texttt{@elastic/elasticsearch}, \texttt{dotenv}, \texttt{discord.js} e \texttt{axios}) são gerenciadas por meio do \textbf{npm} e descritas no arquivo \texttt{package.json}.
