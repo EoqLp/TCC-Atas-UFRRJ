@@ -7,13 +7,20 @@ const axios = require('axios')
 const buscarAtasProporcionais = async () => {
   const sess = event.state.session
 
-  const queryRaw  = sess.queryConsolidada || ''
-  const deptoNome = sess.deptoNome  || ''
+  const queryRaw   = sess.queryConsolidada || ''
+  const discente   = sess.nomeDiscentes        || ''
+  const docente    = sess.nomeProfessores      || ''
+  const disciplina = sess.nomeDisciplina       || ''
+  const progressao = sess.termoProgressao      || ''
+  const processo   = sess.numeroProcessoEdital || ''
+  const assunto    = sess.assuntosGerais       || ''
+  const deptoNome  = sess.deptoNome  || ''
   const deptoSigla = sess.deptoSigla || ''
   const dataInicio = sess.dataInicio || ''
   const dataFim    = sess.dataFim    || ''
 
-  const temFiltros = queryRaw || deptoNome || deptoSigla || dataInicio || dataFim
+  const temFiltros = discente || docente || disciplina || progressao || processo
+    || assunto || deptoNome || deptoSigla || dataInicio || dataFim
   if (!temFiltros) return (temp.encontrou = false)
 
   // NFD + strip diacríticos para que "João" e "joao" sejam equivalentes
@@ -25,7 +32,12 @@ const buscarAtasProporcionais = async () => {
   try {
     // Monta params — URLSearchParams codifica os valores automaticamente
     const params = new URLSearchParams()
-    if (queryRaw)   params.set('q', queryRaw)
+    if (discente)   params.set('discente', discente)
+    if (docente)    params.set('docente', docente)
+    if (disciplina) params.set('disciplina', disciplina)
+    if (progressao) params.set('progressao', progressao)
+    if (processo)   params.set('processo', processo)
+    if (assunto)    params.set('assunto', assunto)
     if (deptoNome)  params.set('depto_nome', deptoNome)
     if (deptoSigla) params.set('depto_sigla', deptoSigla)
     if (dataInicio) params.set('de', dataInicio)

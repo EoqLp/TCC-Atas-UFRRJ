@@ -78,6 +78,25 @@ function extrairDataDoNome(nome) {
   return null;
 }
 
+// ── Decodifica entidades HTML simples vindas do Botpress ──
+function decodeEntities(str) {
+  return str
+    .replace(/&#x2F;/g, '/')
+    .replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&');
+}
+
+// Cada critério do menu vira sua própria cláusula `should` em /buscar,
+// em vez de uma única string concatenada em `conteudo`.
+const CAMPOS_TEXTO = [
+  { param: 'discente',   type: 'match_phrase', boost: 2 },
+  { param: 'docente',    type: 'match_phrase', boost: 2 },
+  { param: 'disciplina', type: 'match_phrase', boost: 1.5 },
+  { param: 'processo',   type: 'match_phrase', boost: 1.5 },
+  { param: 'progressao', type: 'match',        boost: 1, fuzziness: 'AUTO' },
+  { param: 'assunto',    type: 'match',        boost: 1, fuzziness: 'AUTO' }
+];
+
 async function ensureIndex() {
   try {
     const existsRes = await es.indices.exists({ index: indice });
@@ -171,38 +190,37 @@ app.all('/indexar', async (_req, res) => {
 app.get('/', (_req, res) => res.send('Indexador Ativo na Porta 3000'));
 
 app.get('/buscar', async (req, res) => {
-  let pergunta   = req.query.q          || '';
   const deptoNome  = req.query.depto_nome  || '';
   const deptoSigla = req.query.depto_sigla || '';
   const dataInicio = req.query.de          || ''; // YYYY-MM
   const dataFim    = req.query.ate         || ''; // YYYY-MM
 
-  const temAlgumFiltro = pergunta || deptoNome || deptoSigla || dataInicio || dataFim;
+  const temAlgumFiltro = CAMPOS_TEXTO.some(({ param }) => req.query[param])
+    || deptoNome || deptoSigla || dataInicio || dataFim;
   if (!temAlgumFiltro) {
     return res.status(400).json({ erro: 'Nenhum critério de busca informado.' });
   }
 
   try {
-    if (pergunta) {
-      pergunta = pergunta
-        .replace(/&#x2F;/g, '/')
-        .replace(/&quot;/g, '"')
-        .replace(/&amp;/g, '&');
-    }
-
     const boolQuery = {};
 
-    // MUST — texto geral
-    if (pergunta) {
-      boolQuery.must = [{ match: { conteudo: pergunta } }];
+    // SHOULD — um critério por cláusula, cada um contribuindo para o score
+    const should = [];
+    for (const { param, type, boost, fuzziness } of CAMPOS_TEXTO) {
+      const valor = req.query[param];
+      if (!valor) continue;
+      const matchBody = { query: decodeEntities(valor), boost };
+      if (fuzziness) matchBody.fuzziness = fuzziness;
+      should.push({ [type]: { conteudo: matchBody } });
     }
 
-    // SHOULD — nome OU sigla do departamento (busca OR)
-    if (deptoNome || deptoSigla) {
-      boolQuery.should = [];
-      if (deptoNome)  boolQuery.should.push({ match_phrase: { conteudo: deptoNome } });
-      if (deptoSigla) boolQuery.should.push({ match: { conteudo: deptoSigla } });
-      // minimum_should_match garante que pelo menos uma das cláusulas should case
+    // SHOULD — nome e/ou sigla do departamento
+    if (deptoNome)  should.push({ match_phrase: { conteudo: { query: decodeEntities(deptoNome), boost: 1.5 } } });
+    if (deptoSigla) should.push({ match: { conteudo: decodeEntities(deptoSigla) } });
+
+    if (should.length) {
+      boolQuery.should = should;
+      // minimum_should_match garante que pelo menos um dos critérios informados case
       boolQuery.minimum_should_match = 1;
     }
 

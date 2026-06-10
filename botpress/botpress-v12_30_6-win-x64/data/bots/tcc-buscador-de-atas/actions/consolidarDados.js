@@ -48,6 +48,16 @@ function parsePeriodo(texto) {
     }
   }
 
+  // Mês único: MM/YYYY, YYYY-MM ou "março 2026" / "março de 2026"
+  m = t.match(/(\d{2})\/(\d{4})/)
+  if (m) return { inicio: `${m[2]}-${m[1]}`, fim: `${m[2]}-${m[1]}` }
+
+  m = t.match(/(\d{4})-(\d{2})/)
+  if (m) return { inicio: `${m[1]}-${m[2]}`, fim: `${m[1]}-${m[2]}` }
+
+  m = t.match(new RegExp(`(${pat}) (\\d{4})`))
+  if (m) return { inicio: `${m[2]}-${mesesNum[m[1]]}`, fim: `${m[2]}-${mesesNum[m[1]]}` }
+
   return null
 }
 
@@ -80,30 +90,30 @@ const consolidarDados = async () => {
   session.deptoNome = deptoNome
   session.deptoSigla = deptoSigla
 
-  // ── Período: tentar parsear como intervalo de datas ──────────────────
+  // ── Período: tentar parsear como intervalo (ou mês único) de datas ───
   let dataInicio = null
   let dataFim = null
-  let periodoNaoBuscavel = false
   if (periodo && periodo.trim()) {
     const parsed = parsePeriodo(periodo)
     if (parsed) {
       dataInicio = parsed.inicio
       dataFim = parsed.fim
-      periodoNaoBuscavel = true // já virou filtro de data, não vai para o texto
+    } else {
+      // Não deu para interpretar como data: vira assunto de busca livre
+      session.assuntosGerais = [periodo, assuntosGerais].filter(val => val && val.trim() !== '').join(' ')
     }
   }
   session.dataInicio = dataInicio
   session.dataFim = dataFim
 
-  // ── Query principal: departamento e período parseado ficam fora do texto ─
+  // ── Query consolidada: usada apenas para o % de termos no ranking local ─
   const termosValidos = [
     nomeDisciplina,
     nomeProfessores,
-    periodoNaoBuscavel ? null : periodo, // inclui período apenas se não virou filtro de data
     nomeDiscentes,
     numeroProcessoEdital,
     termoProgressao,
-    assuntosGerais
+    session.assuntosGerais
   ].filter(val => val && val.trim() !== '')
 
   session.queryConsolidada = termosValidos.join(' ')
