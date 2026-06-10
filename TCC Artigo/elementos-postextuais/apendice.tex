@@ -1,0 +1,143 @@
+\chapter{Dicas e Boas Práticas} \label{chp:ap_dicas}
+
+Esse apêndice tem como objetivo explicar como construir um texto científico, apresentando dicas na construção do texto e demonstrando exemplos de códigos em LaTeX para as principais necessidades na elaboração do texto.
+
+% ---
+\section{Inclusão de outros arquivos}
+% ---
+
+É uma boa prática dividir o seu documento em diversos arquivos, 
+e não
+apenas escrever tudo em um único. 
+Esse recurso foi utilizado neste documento. 
+Para incluir diferentes arquivos em um arquivo principal, 
+de modo que cada arquivo incluído fique em uma página diferente, utilize o comando:
+
+\begin{verbatim}
+   \include{documento-a-ser-incluido}      % sem a extensão .tex
+\end{verbatim}
+
+Para incluir documentos sem quebra de páginas, utilize:
+
+\begin{verbatim}
+   \input{documento-a-ser-incluido}      % sem a extensão .tex
+\end{verbatim}
+
+% ---
+\section{Citações}
+% ---
+
+AQUI FALAR SOBRE CITACOES
+
+% ---
+\section{Imagens e Tabelas}\label{sec:LABEL_CHP_2_SEC_A}
+% ---
+
+Toda tabela~\ref{tab:MATRIX_NOTAS_EXEMPLO}
+
+\begin{table}[!htb]
+  \centering
+  \caption{Fragmento de uma matriz de notas de um sistema de recomendação de filmes.}
+  \label{tab:MATRIX_NOTAS_EXEMPLO}
+  \rowcolors{1}{}{lightlightgray}
+  \begin{tabular}{l c c c}
+  \toprule
+    & Titanic & Poderoso Chefão & Matrix \\
+    \midrule
+        Filipe Braida & 4 & $\emptyset$ & 3  \\
+        Leandro Alvim & 4 & 5 & 5  \\
+        Bruno Dembogurski & 4 & 5 & 5  \\
+        Fellipe Duarte & $\emptyset$ & 5 & $\emptyset$  \\ 
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Images}\label{sec:LABEL_CHP_2_SEC_B}
+Reference: \url{http://en.wikibooks.org/wiki/LaTeX/Importing_Graphics}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{imagens/chick.png}
+  \caption{Chick}
+  \label{fig:LABEL_FIG_1}
+  \legend{Fonte: o autor.}
+\end{figure}
+
+\begin{algorithm}[H]
+\floatname{algorithm}{Algoritmo}
+
+\textbf{Entrada} conjunto de notas $R$, limiar $\tau$, modelo de previsão $\varphi$.
+
+\textbf{Saída} conjunto de notas sem ruídos $R^{*}$.
+
+$R^{*} \gets \{\}$
+
+\For{$(u, i, r) \in R$}{
+$\tilde{r} \gets \varphi(u,i)$\;
+
+\If{$|\tilde{r} - r| < \tau$}{
+$R^{*} \gets R^{*} \cup \{(u,i,r)\}$
+}
+}
+\caption{Filtragem das avaliações com ruído proposto por \cite{OMahony2006}.}
+\label{alg:mahony}
+\end{algorithm}
+
+\section{Equações}
+Reference: \url{http://en.wikibooks.org/wiki/LaTeX/Mathematics}
+
+Also: \url{http://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics}
+
+\begin{equation}
+  (x + y)^2 = x^2 + 2xy + y^2
+  \label{eq:LABEL_EQ_1}
+\end{equation}
+
+\section{Listings}\label{sec:LABEL_CHP_2_SEC_D}
+Reference: \url{http://en.wikibooks.org/wiki/LaTeX/Source_Code_Listings}
+
+\codec{C}{alg:LABEL_CODE_1}{codigos/codigo-c.txt}
+
+\codejava{Java}{alg:LABEL_CODE_2}{codigos/codigo-java.txt}
+
+\section{References}\label{sec:LABEL_CHP_2_SEC_E}
+
+\begin{alineas}
+  \item Referencing \refchapter{chp:LABEL_CHP_1}
+  \item Referencing \refsection{sec:LABEL_CHP_1_SEC_A}
+  \item Referencing \refsection{sec:LABEL_CHP_1_SEC_C}
+  \item Referencing \reftable{tab:LABEL_TAB_1}
+  \item Referencing \reffigure{fig:LABEL_FIG_1}
+  \item Referencing \refequation{eq:LABEL_EQ_1}
+  \item Referencing \reflisting{alg:LABEL_CODE_1}
+  \item Article \cite{braida2015transforming}
+  \item Segundo \citeonline{braida2015transforming}, ....
+  \item Referencing \refappendix{chp:LABEL_APP_1}  
+\end{alineas}
+
+
+
+\section{Definições, Teoremas}
+
+\begin{definition}\label{def:def1}
+  Aqui é uma nova definição.
+\end{definition}
+
+\begin{definition}[Título] \label{def:def2}
+  Aqui é uma outra definição.
+\end{definition}
+
+\begin{theorem}\label{the:the1}
+  Aqui é um teorema.
+\end{theorem}
+
+Seguindo a Definição~\ref{def:def1} e Teorema~\ref{the:the1}.
+
+
+
+\section{Acrônimos, Siglas}
+  Um \ac{SR}... Portanto, o \ac{SR}...
+
+
+\section{Símbolos}
+  A \ac{rv} é dada por... Assim, \ac{rv}...

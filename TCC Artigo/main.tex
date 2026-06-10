@@ -1,0 +1,122 @@
+\documentclass{projetofinal-dcc}
+%\bibliographystyle{abnt}
+%\bibliography{referencias}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%P A C O T E S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Adicione aqui seus pacotes
+\usepackage[portuguese]{algorithm2e}
+\usepackage{paralist}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{pdfpages}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%I N I C I O  D O  D O C U M E N T O
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{black}{rgb}{0,0,0}
+\definecolor{blue}{rgb}{0,0,0.4}
+\definecolor{purple}{rgb}{0.8,0,0.3}
+\definecolor{orange}{rgb}{1,0.4,0}
+\definecolor{lightlightgray}{gray}{0.85}
+
+% título da tese é obrigatório
+\title{Chatbot para Atas Institucionais da UFRRJ}
+
+% autor é obrigatório; máximo de 3 autores
+\author{Felipe Rangel da Silva}{\input{elementos-pretextuais/agradecimentos}}
+\author{Gabriel Perez Vargas de Vasconcelos}{\input{elementos-pretextuais/agradecimentos}}
+%\author{Nome completo aluno 3}{\input{elementos-pretextuais/agradecimentos}}
+
+% orientador é obrigatório
+\advisor[Prof.]{Ubiratam Carvalho de Paula Jr,~D.Sc.}{}
+% \advisor[Prof.]{Nome completo,~D.Sc.}{}{a} % orientadora
+
+% co-orientador é opcional
+\coadvisor[Prof.]{Fellipe Ribeiro Duarte,~D.Sc.}{}
+%\coadvisor[Prof.]{Nome do co-orientador,~M.Sc.}{}{a} % co-orientadora
+
+% máximo de 3 integrantes da banca (orientador e co-orientador já são adicionados automaticamente)
+\banca[Prof.]{Nome do participante banca 1,~D.Sc.}{DCC~-~UFRRJ}
+\banca[Prof.]{Nome do participante banca 2,~Ph.D.}{DCC~-~UFRRJ}
+%\banca[Prof.]{Nome do participante banca 3,~Ph.D.}{DCC~-~UFRRJ}
+
+\location{Nova Iguaçu}{RJ}{Brasil}
+
+% mês e ano de defesa
+\date{Janeiro}{2020}
+\maketitle
+
+\startdocument
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%A G R A D E C I M E N T O S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\makethankspage - DESCOMENTAR
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%R E S U M O
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{abstract}{ - DESCOMENTAR
+  %\input{elementos-pretextuais/resumo}
+%}
+%\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%A B S T R A C T
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{englishabstract}{ -DESCOMENTAR
+  %\input{elementos-pretextuais/abstract}
+%}
+%\end{englishabstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%L I S T A S
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Figuras
+%\makefigurespage -DESCOMENTAR
+
+% Tabelas
+%\maketablespage
+
+% Algoritmos
+%\makelistingspage
+
+% Abreviaturas (devem estar em ordem alfabética)
+%\makeabrevpage{\input{elementos-pretextuais/abreviaturas}}
+
+% Símbolos (devem estar em ordem alfabética)
+%\makesymbolspage{\input{elementos-pretextuais/simbolos}}
+
+% Sumário 
+%\maketocpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%C O N T E Ú D O
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\startcontent
+\input{elementos-textuais/introducao}
+%\input{elementos-textuais/fundamentacao}
+%\input{elementos-textuais/proposta}
+%\input{elementos-textuais/experimentos}
+%\input{elementos-textuais/conclusao}
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% B I B L I O G R A F I A
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Retirar esta parte se o trabalho não tiver bibliografia
+\makebibspage{elementos-postextuais/referencias}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% A P E N D I C E
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Retirar esta parte se o trabalho não tiver anexos
+%\appendix
+%\input{elementos-postextuais/apendice}
+
+\end{document}
