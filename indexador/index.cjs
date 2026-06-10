@@ -220,6 +220,12 @@ app.get('/buscar', async (req, res) => {
       boolQuery.filter = [{ range: { dataAta: range } }];
     }
 
+    // ─── DUMP LIMPO DA QUERY EXIBIDO NO CMD ─────────────────────────────
+    console.log("\n--- ELASTICSEARCH QUERY DUMP ---");
+    console.log(JSON.stringify({ query: { bool: boolQuery } }, null, 2));
+    console.log("--------------------------------\n");
+    // ───────────────────────────────────────────────────────────────────
+
     const resultado = await es.search({
       index: indice,
       body: {

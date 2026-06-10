@@ -13,3 +13,7 @@ node_modules/
 
 # Configurações locais do Claude Code
 .claude/
+
+# Variáveis de ambiente / segredos
+.env
+indexador/.env
