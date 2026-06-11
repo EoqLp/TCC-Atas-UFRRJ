@@ -1,11 +1,95 @@
 \chapter{Fundamentação}\label{chp:FUNDAMENTACAO}
 
-Esse capítulo será responsável por dar uma base teórica a proposta. 
-A ideia é que o leitor, 
-com um breve conhecimento prévio, 
-tenha a capacidade de ler esse material e consiga ter a capacidade de entender tecnicamente a proposta do projeto final.
-Dependendo do assunto,
-poderá ter mais de uma área de resumo, podendo ficar cada uma em uma seção ou serem capítulos separados.
+Este capítulo apresenta os conceitos teóricos necessários para a compreensão da proposta descrita no Capítulo~\ref{chp:PROPOSTA}. Inicialmente, aprofunda-se a discussão sobre chatbots, complementando a contextualização histórica já apresentada na introdução, com foco na definição formal do termo, na taxonomia dos tipos existentes e na justificativa técnica para a escolha de um chatbot baseado em regras neste trabalho. Em seguida, são apresentados os fundamentos de Busca e Recuperação da Informação (BRI), incluindo os principais modelos de recuperação e o papel da indexação e da busca no funcionamento do Elasticsearch, motor utilizado no sistema proposto.
 
-No caso de um único capítulo, deverá ter um breve resumo antes de iniciar a seção explicando o que este capítulo fará. 
-Caso seja capítulo separado, poderá introduzir a área diretamente sem a criação de uma seção ou criar uma seção chamada "Introdução" e o nome do capítulo pode ser o nome da área.
+\section{Chatbots}
+
+\subsection{Definição}
+
+Conforme apresentado na introdução, a IBM define chatbot como um programa de computador desenvolvido para simular a conversação humana com o usuário final \cite{IBMChatbots}. Essa definição é compatível com a literatura acadêmica sobre o tema. Dale \cite{dale2016chatbots} define chatbot, de forma ampla, como qualquer aplicação de software capaz de manter um diálogo com um ser humano por meio de linguagem natural, independentemente de o sistema ser chamado de assistente digital, interface conversacional ou chatbot. O conceito subjacente é sempre o de alcançar um resultado por meio de uma interação dialógica com uma máquina.
+
+Já Adamopoulou e Moussiades \cite{adamopoulou2020chatbots} caracterizam os chatbots como sistemas de diálogo natural que simulam conversas humanas, podendo ser implementados essencialmente por meio de duas abordagens: a correspondência de padrões (\textit{pattern matching}), em que a resposta é selecionada a partir de regras pré-definidas que casam com a entrada do usuário, e o aprendizado de máquina, em que o sistema aprende a gerar ou selecionar respostas a partir de grandes volumes de dados de treinamento. Essa distinção entre abordagem baseada em regras e abordagem baseada em aprendizado de máquina é a base da taxonomia apresentada a seguir.
+
+\subsection{Tipos de Chatbots}\label{sec:tipos-chatbots}
+
+A IBM, por meio da publicação \textit{``Seis tipos de chatbots e como escolher o ideal para sua empresa''} \cite{IBMChatbots}, descreve seis categorias de chatbots disponíveis atualmente, apresentadas a seguir.
+
+\subsubsection{Chatbots Baseados em Menus ou Botões}
+Representam o nível mais básico entre os chatbots. A interação com o usuário se dá pela seleção de opções em um script que se encaixa melhor nas suas necessidades, podendo haver mais opções conforme as escolhas forem sendo feitas, até chegar à opção mais adequada. Esses chatbots operam como árvores de decisão e são bons para tarefas transacionais, sendo focados na resolução de funcionalidades simples e úteis para responder perguntas repetitivas, previsíveis e diretas. A dificuldade aparece em solicitações menos genéricas, pois as opções de resposta são pré-definidas e limitadas. Caso a necessidade do usuário não esteja disponível no menu, o chatbot se torna inútil.
+
+\subsubsection{Chatbots Baseados em Regras}
+Possuem a funcionalidade da árvore de decisão, assim como os chatbots baseados em menu, adicionando também regras de lógica condicional para o desenvolvimento de fluxos de automação de conversa. Atuam essencialmente com FAQs interativas, necessitando de uma quantidade de combinações pré-definidas de perguntas e respostas para a interação com o usuário. Operam com detecção básica de palavras-chave, sendo fáceis de treinar e funcionando bem quando recebem perguntas dentro de um escopo pré-definido, mas têm dificuldade para lidar com perguntas mais complexas e não previstas no escopo.
+
+\subsubsection{Chatbots Impulsionados por IA}
+Possuem capacidade de compreensão das perguntas do usuário com recursos de IA e Entendimento de Linguagem Natural (NLU), conseguindo detectar rapidamente as informações relevantes a partir das interações com o usuário, tornando a interação mais conversacional. Possuem a possibilidade de buscar mais informações com o usuário para o entendimento correto do escopo fornecido e solicitado, podendo apresentar opções de resposta entre as quais o usuário escolhe a que mais se encaixa no contexto encontrado. Utilizam algoritmos de aprendizado de máquina em sua implementação, permitindo entendimento, aprendizagem e desenvolvimento contínuo.
+
+\subsubsection{Voice Chatbots}
+São ferramentas de conversação que permitem a interação falada como alternativa à interação textual, podendo oferecer as mesmas funcionalidades dos chatbots de IA convencionais, mas implementadas com tecnologia \textit{Text-to-Speech} e \textit{Speech-to-Text}. Com a aplicação do Processamento de Linguagem Natural e interações com tecnologias de computação e telefonia, os chatbots por voz conseguem compreender perguntas faladas, analisar a intenção do usuário e apresentar respostas em tom de conversa, aumentando o engajamento e a imersão.
+
+\subsubsection{Chatbots de IA Generativa}
+Oferecem funcionalidades mais avançadas que os anteriores, com maior fluência na compreensão da linguagem comum e maior adaptação à linguagem do usuário, podendo gerar conteúdo novo como resultado sendo texto, imagens ou áudio,com base em \textit{Large Language Models} (LLMs), nos quais são treinados. Apresentam maior personalização aos usuários, aumentando o alcance e a velocidade no atendimento. As interfaces de chatbots com IA generativa podem reconhecer, resumir, traduzir, prever e criar conteúdo em resposta à consulta de um usuário.
+
+\subsubsection{Chatbots Híbridos}
+São sistemas de IA conversacional que combinam lógica baseada em regras e recursos baseados em aprendizado de máquina, proporcionando uma experiência mais versátil ao lidar com tarefas de diferentes níveis de complexidade. Funcionam com um conjunto de regras e scripts pré-definidos, que dão estrutura ao diálogo, enquanto a camada de IA contribui com potencial de aprendizado para interações mais complexas.
+
+\subsection{Chatbots Baseados em Regras}
+
+Chatbots baseados em regras operam por meio de um conjunto fechado de padrões de entrada e saída definidos previamente pelo desenvolvedor, sem capacidade de generalização para situações fora desse conjunto. Adamopoulou e Moussiades \cite{adamopoulou2020chatbots} descrevem essa abordagem como \textit{pattern matching}: a entrada do usuário é comparada a padrões pré-estabelecidos e, ao haver correspondência, uma resposta associada a esse padrão é selecionada. Essa lógica está na base de linguagens historicamente usadas para construção de chatbots, como a AIML (\textit{Artificial Intelligence Markup Language}), empregada no A.L.I.C.E \cite{wallace2009alice}, já discutida na introdução.
+
+Singh, Joesph e Jabbar \cite{singh2019rulebased} descrevem um chatbot baseado em regras desenvolvido para responder a consultas administrativas de estudantes de uma universidade (o ``APU Admin Bot''), no qual a correspondência de padrões como palavras, frases e até ações específicas do usuário aciona um conjunto pré-definido de respostas, dispensando a necessidade de programação tradicional ou de grandes volumes de dados de treinamento. Esse caso ilustra a adequação da abordagem baseada em regras a domínios fechados, com escopo de perguntas relativamente previsível, característica também presente no contexto das atas institucionais tratadas neste trabalho.
+
+\subsection{Comparativo entre Tipos de Chatbot e os Requisitos do Projeto}
+
+A escolha do tipo de chatbot a ser utilizado neste trabalho deve considerar as características do problema apresentado: um sistema de busca em um conjunto fechado de documentos (atas do CONSUNI/ICSA da UFRRJ), sem necessidade de geração de conteúdo novo, com baixo orçamento disponível para licenciamento de ferramentas e que precisa se integrar a um motor de busca textual (Elasticsearch \cite{IBMElasticsearch}) por meio de chamadas a uma API. A Tabela~\ref{tab:comparativo-chatbots} resume, para cada tipo de chatbot apresentado na Seção~\ref{sec:tipos-chatbots}, a adequação a esses requisitos.
+
+\begin{table}[H]
+  \centering
+  \caption{Comparativo entre tipos de chatbot e os requisitos do projeto}
+  \label{tab:comparativo-chatbots}
+  \begin{tabular}{p{3.0cm}p{4.3cm}p{2.0cm}p{3.5cm}}
+    \hline
+    \textbf{Tipo} & \textbf{Adequação ao escopo fechado} & \textbf{Custo de licenciamento} & \textbf{Integração com API externa (Elasticsearch)} \\
+    \hline
+    Baseado em menus/botões & Limitado: difícil mapear os 7 critérios de busca em menus rígidos & Baixo/nenhum & Possível, mas pouco flexível para parâmetros livres \\
+    Baseado em regras & Alto: escopo fechado favorece fluxos com regras condicionais bem definidas & Baixo/nenhum (Botpress v12 open source) & Suporta chamadas HTTP/JS dentro do fluxo \\
+    Impulsionado por IA / NLU & Alto poder de generalização, mas exige treinamento de modelos de NLU e maior esforço de configuração & Médio/alto (modelos proprietários) & Possível, porém com custo adicional \\
+    Voice chatbot & Não se aplica ao caso de uso (interação textual) & Médio/alto & Possível, mas fora do escopo \\
+    IA generativa & Alta flexibilidade, porém risco de respostas não fundamentadas nas atas (alucinação) e custo recorrente de uso de LLM & Alto (APIs de LLM pagas) & Possível, mas exige camada adicional de RAG \\
+    Híbrido & Combina regras e IA, mas adiciona complexidade de manutenção desnecessária para o escopo atual & Médio & Possível \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Como discutido na introdução, optou-se pelo chatbot baseado em regras, implementado na plataforma Botpress v12 \cite{botpress-about, botpress-docs}. Essa escolha decorre de três fatores combinados: (i) o escopo do problema é fechado e o usuário busca atas dentro de um conjunto de critérios pré-definidos (departamento, disciplina, docentes, período, discentes, processo/edital, progressão funcional e assunto geral), o que se encaixa naturalmente em um fluxo de diálogo guiado por regras; (ii) o Botpress v12 é uma ferramenta de código aberto, sem custo de licenciamento, podendo ser hospedada localmente \cite{botpress-about}; e (iii) a plataforma permite a execução de ações em JavaScript dentro do fluxo de conversa, viabilizando a integração com a API REST do indexador Node.js, que por sua vez consulta o Elasticsearch \cite{IBMElasticsearch}. Chatbots impulsionados por IA, de IA generativa ou híbridos poderiam oferecer maior flexibilidade na interpretação de perguntas livres, mas introduziriam custo de licenciamento de modelos de linguagem e risco de geração de respostas não embasadas no conteúdo das atas. Sendo um problema que o uso de um fluxo de regras combinado a uma busca textual determinística no Elasticsearch evita por construção.
+
+\section{Busca e Recuperação da Informação}
+
+\subsection{Definição}
+
+Recuperação de Informação (RI), do inglês \textit{Information Retrieval}, é definida por Manning, Raghavan e Schütze \cite{manning2008ir} como a atividade de localizar, dentro de uma grande coleção (geralmente armazenada em computadores), material de natureza não estruturada (em geral texto) que satisfaça uma necessidade de informação expressa por uma consulta. Baeza-Yates e Ribeiro-Neto \cite{baezayates2010modern} complementam essa definição ao descrever a RI como a área responsável por representar, armazenar, organizar e acessar itens de informação de forma a facilitar o acesso do usuário às informações de seu interesse, lidando com a representação, o armazenamento e a recuperação de informação textual.
+
+Diferentemente de uma consulta a um banco de dados estruturado, em que a correspondência entre consulta e registros é exata, a RI trata do problema da relevância: dado um conjunto de documentos e uma consulta, o sistema deve estimar quais documentos são relevantes para a necessidade de informação do usuário, ordenando os resultados por algum critério de pontuação \cite{manning2008ir}.
+
+\subsection{Modelos de Recuperação da Informação}
+
+Baeza-Yates e Ribeiro-Neto \cite{baezayates2010modern} organizam os modelos clássicos de RI em três grandes famílias: o modelo booleano, o modelo vetorial (espaço vetorial) e o modelo probabilístico.
+
+\subsubsection{Modelo Booleano}
+Trata-se de um modelo de recuperação de informação baseado na teoria dos conjuntos e na álgebra booleana, neste modelo documentos e consultas são representados como conjuntos de termos combinados por operadores lógicos (\textit{AND}, \textit{OR}, \textit{NOT}). Um documento é considerado relevante se satisfaz exatamente a expressão booleana da consulta, sem que exista uma noção de grau de relevância, ou seja, o documento ou corresponde ou não corresponde a busca realizada.\cite{baezayates2010modern}.
+
+\subsubsection{Modelo Vetorial (Espaço Vetorial)}
+No modelo de espaço vetorial, proposto originalmente por Salton, Wong e Yang \cite{salton1975vector}, documentos e consultas são representados como vetores em um espaço de $n$ dimensões, em que cada dimensão corresponde a um termo do vocabulário. O grau de similaridade entre uma consulta e um documento é calculado por uma medida de distância ou similaridade entre os vetores, permitindo ordenar os documentos por um grau contínuo de relevância, em vez da resposta binária do modelo booleano. Esse modelo é a base conceitual tanto de esquemas de ponderação clássicos, como o TF-IDF, quanto das abordagens modernas de busca semântica baseadas em \textit{embeddings}, nas quais documentos e consultas são representados como vetores densos aprendidos por modelos de linguagem, e a similaridade vetorial captura relações semânticas entre termos que vão além da correspondência exata de palavras.
+
+\subsubsection{Modelo Probabilístico}
+O modelo probabilístico estima a probabilidade de um documento ser relevante para uma consulta, ordenando os resultados de acordo com essa estimativa \cite{baezayates2010modern}. A família de funções de ranqueamento BM25 (\textit{Best Matching 25}) é a realização mais difundida desse modelo, derivada do arcabouço probabilístico de relevância desenvolvido por Robertson e colaboradores \cite{robertson2009bm25}. O BM25 pondera a frequência de cada termo da consulta no documento, a frequência inversa do termo na coleção (termos raros contribuem mais para a pontuação que termos comuns) e o comprimento do documento, produzindo uma pontuação de relevância para cada documento em relação à consulta. É esse o algoritmo utilizado pelo Elasticsearch para o ranqueamento padrão de resultados \cite{IBMElasticsearch}.
+
+\subsubsection{Situando o BM25 e a Busca Semântica}
+No sistema proposto neste trabalho, a recuperação textual sobre o conteúdo das atas é realizada pelo Elasticsearch, que utiliza o BM25 como função de ranqueamento padrão \cite{IBMElasticsearch}. A busca por similaridade semântica, mencionada na introdução como mecanismo complementar, situa-se dentro da família de modelos vetoriais: tanto a consulta quanto os documentos podem ser representados como vetores de \textit{embeddings}, e a relevância é estimada pela proximidade entre esses vetores no espaço semântico, capturando relações de significado que o BM25, por operar sobre a correspondência lexical de termos, não captura diretamente.
+
+\subsection{O Problema da Busca: Indexação e Recuperação}\label{sec:problema-busca}
+
+O funcionamento de um sistema de RI pode ser dividido em duas etapas principais: a indexação e a busca propriamente dita \cite{manning2008ir}.
+
+A indexação consiste em processar previamente a coleção de documentos para construir uma estrutura de dados que viabilize buscas eficientes sem a necessidade de varrer o conteúdo integral de cada documento a cada consulta. No caso do Elasticsearch, essa estrutura é o índice invertido, no qual cada termo do vocabulário é associado à lista de documentos em que ocorre, junto a estatísticas usadas pelo BM25 (frequência do termo, frequência do documento, comprimento do documento) \cite{IBMElasticsearch}. No sistema proposto, essa etapa corresponde ao processo de extração de texto dos PDFs das atas e ao envio desse conteúdo ao Elasticsearch para indexação, associando a cada documento campos estruturados como título e data da ata, além do conteúdo textual completo.
+
+A busca, por sua vez, consiste em receber uma consulta, processá-la (removendo \textit{stop words}, normalizando termos etc.) e utilizá-la para percorrer o índice em busca dos documentos mais relevantes, retornando-os ordenados por pontuação. No sistema proposto, a consulta enviada ao Elasticsearch é montada a partir dos critérios informados pelo usuário através do chatbot, e os documentos retornados passam por um cálculo adicional de proporcionalidade, que reordena os três melhores resultados antes de apresentá-los ao usuário. O Capítulo~\ref{chp:PROPOSTA} discute, em nível conceitual, como o chatbot resolve a desconexão entre o vocabulário livre do usuário e a organização do índice na geração dessa consulta; o Capítulo~\ref{chp:EXPERIMENTOS} apresenta os detalhes de implementação dessa etapa.

@@ -6,7 +6,7 @@ Conforme já observado em estudos acadêmicos, tal como (i) a monografia \textit
 
 Atualmente, na Universidade Federal Rural do Rio de Janeiro, as atas de reuniões acadêmicas do Departamento de Ciência da Computação armazenam informações essenciais sobre o desenvolvimento do curso e decisões acadêmicas que afetam os alunos e os professores, representando um histórico valioso para preservação e consulta.
 
-Nesse contexto, foi observada a necessidade de uma ferramenta que facilite a busca por atas — atas que contenham informações pertinentes sobre assuntos específicos ou buscas mais genéricas. Com fins de pesquisa e levantamento do histórico de reuniões dentro do departamento e considerando que a quantidade de atas cresce continuamente, realizar a busca manual torna-se cada vez mais difícil. Além disso, a aplicação de um sistema de consulta de atas demanda manutenção, aprendizado por parte do operador e implantação adequada ao ambiente acadêmico.
+Nesse contexto, foi observada a necessidade de uma ferramenta que facilite a busca por atas que contenham informações pertinentes sobre assuntos específicos ou buscas mais genéricas. Com fins de pesquisa e levantamento do histórico de reuniões dentro do departamento e considerando que a quantidade de atas cresce continuamente, realizar a busca manual torna-se cada vez mais difícil. Além disso, a aplicação de um sistema de consulta de atas demanda manutenção, aprendizado por parte do operador e implantação adequada ao ambiente acadêmico.
 
 \section{Objetivo}
 
@@ -14,14 +14,14 @@ Diante disso, o problema central deste trabalho é permitir que perguntas realiz
 
 Este artigo visa (i) investigar os principais tipos de chatbot disponíveis para a implantação, (ii) analisar as tecnologias envolvidas em sua construção e desenvolvimento e (iii) realizar um estudo mais aprofundado sobre chatbots baseados em regras, considerando seus principais benefícios, aplicações e a usabilidade dentro do problema apresentado.
 
-\section{Defini\c{c}\~{a}o e Origem dos Chatbots}
+\section{Definição e Origem dos Chatbots}
 
 Segundo a IBM \cite{IBMChatbots}, chatbot é um programa de computador desenvolvido para simular a conversação humana com o usuário final. Embora nem todos os chatbots sejam equipados com inteligência artificial, os modelos mais recentes utilizam técnicas avançadas, como o processamento de linguagem natural, para compreender as questões apresentadas pelos usuários e automatizar as respostas.
 
 
 A história dos chatbots teve início na década de 1960, através do desenvolvimento do programa ELIZA, idealizado por Joseph Weizenbaum no Massachusetts Institute of Technology (MIT). ELIZA foi um chatbot projetado para simular uma conversa com um psicoterapeuta, funcionando com base em regras simples de construção de palavras e scripts pré-definidos \cite{weizenbaum1966eliza}. ELIZA não compreendia de fato o conteúdo das mensagens, mas conseguia simular interações humanas de maneira revolucionária para a época, sendo sua criação um marco do início da exploração de agentes conversacionais no campo da inteligência artificial (IA) e da linguística computacional.
 
-Outro marco na evolução dos chatbots ocorreu em 1972, quando o psiquiatra Kenneth Colby, na universidade de Stanford desenvolveu o PARRY, modelo que, diferentemente do ELIZA, simulava o comportamento de um paciente com esquizofrenia paranoide. O PARRY foi submetido a uma versão do Teste de Turing \cite{turing1950} — proposto por Turing como um teste para avaliar se uma máquina pode exibir comportamento inteligente indistinguível do humano, por meio do que ele chamou de \textit{``Imitation Game''} —, sendo avaliado por psiquiatras que interagiram com o programa e analisaram suas transcrições. Os especialistas identificaram corretamente cerca de 48\% das trocas, valor que demonstra que, mesmo para profissionais da área, o PARRY se passava, na maioria das situações, por um paciente humano \cite{colby1972parry}.
+Outro marco na evolução dos chatbots ocorreu em 1972, quando o psiquiatra Kenneth Colby, na universidade de Stanford desenvolveu o PARRY, modelo que, diferentemente do ELIZA, simulava o comportamento de um paciente com esquizofrenia paranoide. O PARRY foi submetido a uma versão do Teste de Turing \cite{turing1950} sendo avaliado por psiquiatras que interagiram com o programa e analisaram suas transcrições. Os especialistas identificaram corretamente cerca de 48\% das trocas, valor que demonstra que, mesmo para profissionais da área, o PARRY se passava, na maioria das situações, por um paciente humano \cite{colby1972parry}.
 
 Essa capacidade de simulação evidencia o avanço no uso de agentes conversacionais como ferramentas de investigação psicológica, mesmo em uma época em que a tecnologia não era tão avançada quanto hoje, reforçando a relevância do PARRY como uma etapa importante na história da IA conversacional.
 
@@ -39,36 +39,10 @@ Nos últimos anos, a evolução dos chatbots alcançou um novo patamar com a ado
 
 Ao contrário dos chatbots mais tradicionais, que funcionam com base em fluxos fixos ou regras pré-programadas, os modelos de linguagem de grande escala (LLMs) são treinados com enormes volumes de texto e conseguem lidar com tarefas bem mais complexas. Eles podem responder perguntas abertas, escrever textos longos e bem estruturados, resumir documentos, traduzir idiomas, explicar conceitos técnicos e até simular estilos de fala ou perfis de personalidade. Essa flexibilidade e capacidade de adaptação a diferentes situações tornam esses modelos especialmente úteis em áreas como educação, atendimento ao cliente, saúde e produtividade no ambiente corporativo \cite{bommasani2021opportunities}.
 
-\section{Tipos de Chatbots}
-
-A IBM, por meio da publicação \textit{``Seis tipos de chatbots e como escolher o ideal para sua empresa''} \cite{IBMChatbots}, apresenta alguns dos tipos de chatbots disponíveis no mercado atualmente, descritos a seguir:
-
-\subsection{Chatbots Baseados em Menus ou Botões}
-Esses chatbots representam o nível mais básico entre os chatbots. A interação com o usuário se dá com a seleção de um script que se encaixa melhor nas necessidades atuais do utilizador, podendo haver mais opções conforme as escolhas forem sendo feitas, até chegar à opção mais adequada. Esses chatbots operam como árvores de decisão e são bons para tarefas transacionais. São focados na resolução de funcionalidades simples e extremamente úteis para a resposta de perguntas repetitivas, previsíveis e diretas. A dificuldade é observada com solicitações menos genéricas, pois possuem opções de respostas pré-definidas e limitadas. Além disso, caso a necessidade do usuário não esteja disponível nas opções do menu, o chatbot se torna inútil.
-
-\subsection{Chatbots Baseados em Regras}
-Possuem a funcionalidade da árvore de decisão, assim como os chatbots baseados em menu, adicionando também regras de lógica condicional para o desenvolvimento de fluxos de automação de conversa. Atuam essencialmente com FAQs interativas, necessitando de uma quantidade de combinações pré-definidas de perguntas e respostas para a interação com o usuário.
-Operam com detecção básica de palavras-chave, sendo fáceis de treinar e funcionando bem também quando recebem perguntas em um escopo pré-definido, tendo dificuldade para lidar com perguntas mais complexas e que não foram previstas no escopo.
-
-\subsection{Chatbots Impulsionados por IA}
-Possuem capacidade de compreensão das perguntas do usuário com recursos de IA e Entendimento de Linguagem Natural (NLU), conseguindo detectar rapidamente as informações relevantes a partir das interações com o usuário, tornando a interação mais conversacional.
-Possuem a possibilidade de buscar mais informações com o usuário para o entendimento correto do escopo fornecido e solicitado. Também podem apresentar opções de resposta entre as quais o usuário pode escolher a que mais se encaixa no contexto encontrado.
-Utilizam algoritmos de aprendizado de máquina em sua implementação, permitindo entendimento, aprendizagem e desenvolvimento.
-
-\subsection{Voice Chatbots}
-São ferramentas de conversação que permitem a interação falada em alternativa à interação textual, podendo oferecer as mesmas funcionalidades que os chatbots de IA convencionais, mas são implementados com tecnologia Text-to-Speech e Speech-to-Text.
-Com a aplicação do Processamento de Linguagem Natural e interações com tecnologias de computação e telefonia, os chatbots por voz conseguem compreender perguntas faladas, realizar a análise dos usuários e apresentar as respostas em um tom de conversa, aumentando o engajamento e a imersão do usuário.
-
-\subsection{Chatbots de IA Generativa}
-Podem oferecer funcionalidades mais avançadas que os anteriores, possuindo maior fluência na compreensão da linguagem comum e maior adaptação à linguagem do usuário, podendo gerar conteúdo novo como resultado. Esse conteúdo pode ser texto, imagens ou sons de alta qualidade, baseado em Large Language Models (LLMs), nos quais são treinados.
-Apresentam maior personalização aos usuários, aumentando o alcance e a velocidade no atendimento. As interfaces de chatbots com IA generativa podem reconhecer, resumir, traduzir, prever e criar conteúdo em resposta à consulta de um usuário.
-
-\subsection{Chatbots Híbridos}
-Chatbots híbridos são sistemas de IA conversacional que combinam lógica baseada em regras e recursos baseados em aprendizado de máquina, proporcionando uma experiência mais versátil ao lidar com tarefas de diferentes níveis de complexidade. Funcionam com um conjunto de regras e scripts pré-definidos, apresentando estrutura, enquanto a IA possui um potencial de aprendizado para interações mais complexas.
-
-\section{Escolha do modelo de Chatbot}
+\section{Escolha do Modelo de Chatbot}
 Diante da necessidade de uma ferramenta que interaja com o usuário e recupere a ata mais adequada de acordo com o questionamento realizado, propõe-se um sistema baseado em consultas a uma base de dados estruturada, composta pelas atas, com a interação ocorrendo por meio de uma interface conversacional integrada a um canal de comunicação utilizado no ambiente universitário. Optou-se pela aplicação de um chatbot baseado em regras, pela capacidade do estabelecimento de um escopo e uma estrutura de diálogo pré-definida, permitindo o mapeamento de respostas prontas com base em fluxos lógicos bem definidos.
-Para viabilizar a recuperação eficiente dos documentos mais adequados com base nas consultas feitas pelo usuário, será implementado um mecanismo de busca por similaridade semântica utilizando o Elasticsearch \cite{IBMElasticsearch}. Essa tecnologia permite a indexação de grandes volumes de texto e a realização de buscas avançadas com alto desempenho, o que é fundamental para garantir a precisão e a velocidade no retorno das informações. O Elasticsearch será configurado para processar e ranquear as atas com base na similaridade entre o conteúdo dos documentos e a pergunta inserida, aumentando significativamente a relevância das respostas apresentadas pelo sistema.
+
+Para viabilizar a recuperação eficiente dos documentos mais adequados com base nas consultas feitas pelo usuário, é utilizado o Elasticsearch \cite{IBMElasticsearch} como mecanismo de busca textual, com a possibilidade de incorporação de busca por similaridade semântica como complemento. O Capítulo~\ref{chp:FUNDAMENTACAO} apresenta a taxonomia dos tipos de chatbot considerados, um comparativo entre essas opções e os requisitos do projeto, e a fundamentação teórica sobre os modelos de recuperação da informação empregados.
 
 \section{Conceitos Relevantes}
 

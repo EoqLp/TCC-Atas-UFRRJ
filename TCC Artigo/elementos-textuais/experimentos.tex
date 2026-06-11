@@ -22,6 +22,42 @@ A comunicação entre o indexador e o Elasticsearch é realizada por meio do cli
 
 Cada documento indexado é armazenado com os campos \texttt{titulo}, \texttt{conteudo}, \texttt{data} (data de indexação) e \texttt{dataAta}. Esse último campo é preenchido automaticamente a partir do nome do arquivo, reconhecendo tanto o padrão numérico (\texttt{AAAA-MM} ou \texttt{AAAA\_MM}) quanto nomes de meses por extenso ou abreviados em português, permitindo que as buscas sejam filtradas por intervalo de datas.
 
+\section{Mapeamento dos Critérios de Busca para a Consulta}\label{sec:mapeamento-criterios}
+
+Esta seção detalha a implementação do roteiro guiado de diálogo apresentado no Capítulo~\ref{chp:PROPOSTA}, descrevendo como cada critério de busca coletado pelo chatbot é convertido em parâmetros da requisição ao indexador e, em seguida, em cláusulas da consulta ao Elasticsearch.
+
+\subsection{Critérios de Busca e Variáveis de Sessão}
+
+O fluxo principal do chatbot, definido no arquivo \texttt{main.flow.json} do Botpress, conduz o usuário por sete critérios de busca, cada um armazenado em uma variável de sessão e, posteriormente, repassado como parâmetro do endpoint \texttt{/buscar} do indexador:
+
+\begin{itemize}
+  \item \textbf{Departamento} (\texttt{nomeDepartamento}) : nome ou sigla do departamento responsável pela ata, mapeado para os parâmetros \texttt{depto\_nome} e \texttt{depto\_sigla};
+  \item \textbf{Disciplina} (\texttt{nomeDisciplina}) : nome da disciplina mencionada na ata, mapeado para o parâmetro \texttt{disciplina};
+  \item \textbf{Docentes} (\texttt{nomeProfessores}) : nome de professores envolvidos no assunto da ata, mapeado para o parâmetro \texttt{docente};
+  \item \textbf{Período} (\texttt{periodo}) : intervalo de datas da ata, convertido para os parâmetros \texttt{de} e \texttt{ate};
+  \item \textbf{Discentes} (\texttt{nomeDiscentes}) : nome de alunos mencionados na ata, mapeado para o parâmetro \texttt{discente};
+  \item \textbf{Processo/Edital} (\texttt{numeroProcessoEdital}) : número de processo ou edital, mapeado para o parâmetro \texttt{processo};
+  \item \textbf{Progressão} (\texttt{termoProgressao}) : termo relacionado a progressões funcionais/acadêmicas, mapeado para o parâmetro \texttt{progressao}.
+\end{itemize}
+
+Além desses sete critérios, o fluxo reserva um campo de \textbf{assunto geral} (\texttt{assuntosGerais}), mapeado para o parâmetro \texttt{assunto}, utilizado tanto para descrições livres do tema da ata quanto como destino de qualquer texto que não tenha sido reconhecido como um período de datas válido.
+
+\subsection{Consolidação das Respostas}
+
+Ao final do roteiro, a ação \texttt{consolidarDados} processa as variáveis de sessão coletadas. O texto informado para o departamento é separado em nome e sigla sempre que estiver no formato \textit{``Nome do Departamento - SIGLA''}, originando as variáveis \texttt{deptoNome} e \texttt{deptoSigla}; quando o usuário informa apenas um termo (nome ou sigla), esse termo é tratado como \texttt{deptoNome}. O texto informado para o período é interpretado por uma função de \textit{parsing} que reconhece diferentes formatos de data (\texttt{MM/AAAA}, \texttt{AAAA-MM}, nomes de meses por extenso ou abreviados, com ou sem indicação de intervalo) e o converte em um par de datas no formato \texttt{AAAA-MM}, armazenado em \texttt{dataInicio} e \texttt{dataFim}; quando o texto não corresponde a nenhum desses formatos, ele é concatenado à variável \texttt{assuntosGerais}, evitando que a informação seja descartada. Por fim, a ação monta a variável \texttt{queryConsolidada}, uma \textit{string} com os termos de disciplina, docentes, discentes, processo/edital, progressão e assunto geral, utilizada posteriormente apenas para o cálculo do percentual de relevância (Seção~\ref{subsec:busca-proporcional}) . O departamento e o período não entram nessa \textit{string}, pois são tratados de forma diferenciada na consulta ao Elasticsearch.
+
+\subsection{Montagem da Consulta ao Elasticsearch}
+
+O endpoint \texttt{/buscar} do indexador recebe os parâmetros \texttt{discente}, \texttt{docente}, \texttt{disciplina}, \texttt{processo}, \texttt{progressao}, \texttt{assunto}, \texttt{depto\_nome}, \texttt{depto\_sigla}, \texttt{de} e \texttt{ate}, e monta dinamicamente uma consulta no formato \textit{Query DSL} do Elasticsearch. Cada parâmetro textual recebido origina uma cláusula \texttt{should} sobre o campo \texttt{conteudo}, com tipo de correspondência e peso (\textit{boost}) próprios, definidos de acordo com a especificidade do critério: \texttt{discente} e \texttt{docente} utilizam \texttt{match\_phrase} com \textit{boost} 2; \texttt{disciplina}, \texttt{processo} e o nome do departamento utilizam \texttt{match\_phrase} com \textit{boost} 1,5; e \texttt{progressao}, \texttt{assunto} e a sigla do departamento utilizam \texttt{match} com tolerância a erros de digitação (\texttt{fuzziness: AUTO}) e \textit{boost} 1. Todas essas cláusulas compõem o agrupamento \texttt{should} da consulta, com \texttt{minimum\_should\_match} igual a 1, garantindo que ao menos um dos critérios informados seja correspondido.
+
+O período de datas, quando informado, não integra o agrupamento \texttt{should}: ele é traduzido em uma cláusula \texttt{range} sobre o campo \texttt{dataAta}, aplicada como \texttt{filter} da consulta booleana. Cláusulas de \texttt{filter} restringem o conjunto de documentos candidatos sem contribuir para o \textit{score} de relevância calculado pelo BM25 \cite{IBMElasticsearch}, o que reflete a natureza do período como um critério de delimitação temporal, e não de relevância textual. Quando apenas a data de início ou apenas a data de fim é informada, o intervalo é tratado como aberto na extremidade não especificada.
+
+\subsection{Ranqueamento Proporcional e Exibição dos Resultados}\label{subsec:busca-proporcional}
+
+A ação \texttt{buscarAtasProporcionais} é responsável por montar a requisição HTTP ao endpoint \texttt{/buscar} a partir das variáveis consolidadas e por processar a resposta do indexador. Para cada ata retornada, a ação calcula o percentual de termos da \texttt{queryConsolidada} que aparecem no título e no trecho destacado da ata, normalizando o texto (caixa baixa e remoção de acentos) antes da comparação. Os resultados são então reordenados por esse percentual, e os três primeiros são selecionados. Quando a \texttt{queryConsolidada} está vazia (por exemplo, quando o usuário informa apenas departamento e período), a reordenação utiliza o percentual do \textit{score} do Elasticsearch em relação ao maior \textit{score} retornado.
+
+Por fim, a ação \texttt{prepararExibicaoAtas} formata os até três resultados selecionados para exibição ao usuário, associando a cada ata o respectivo título, o link de acesso ao arquivo PDF (servido pela rota \texttt{/arquivos} do indexador) e o percentual calculado na etapa anterior.
+
 \section{Integração com o Discord}
 
 Como canal alternativo de acesso ao chatbot, foi desenvolvido um bot para o \textbf{Discord} utilizando a biblioteca \textbf{discord.js} \cite{discordjs-docs}. O bot escuta as mensagens enviadas em um canal específico e repassa o conteúdo para o Botpress por meio de uma requisição HTTP feita com a biblioteca \textbf{axios} \cite{axios-npm}, retornando ao usuário as respostas e os menus de opções gerados pelo fluxo de conversa.
