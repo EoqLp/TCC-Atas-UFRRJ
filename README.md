@@ -69,10 +69,3 @@ Para visualizar a lista completa de documentos no banco de dados:
 ```
 curl -u elastic:<SUA_SENHA> -k -X GET https://localhost:9200/atas/_search
 ```
-
-🔍 Inteligência de Busca
-O sistema utiliza um algoritmo de Busca Proporcional customizado no chatbot, que funciona em duas etapas:
-
-Filtragem de Stop Words: Antes da consulta, o sistema remove automaticamente ruídos linguísticos (artigos, preposições, interjeições e gírias) usando uma lista extensiva de mais de 300 termos. Isso garante que a busca foque apenas em palavras-chave de alto valor.
-
-Cálculo de Precisão: O sistema retorna apenas os resultados que atingem um nível crítico de relevância (padrão: 65%). Caso nenhuma correspondência ideal seja encontrada, o sistema informa ao usuário sobre a baixa precisão do resultado mais próximo.
