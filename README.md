@@ -42,7 +42,7 @@ elasticsearch.bat
 2. Validar o Status do Serviço
 
 ```    
-curl -u elastic:suasenha -k https://localhost:9200
+curl -u elastic:<SUA_SENHA> -k https://localhost:9200
 ```
 
 3. Iniciar o Servidor Indexador (Node.js)
@@ -67,7 +67,7 @@ O sistema percorrerá todos os arquivos, extrairá o conteúdo textual e enviar�
 Para visualizar a lista completa de documentos no banco de dados:
 
 ```
-curl -u elastic:-FCypZTG*SPvCJ7tqNYv -k -X GET https://localhost:9200/atas/_search
+curl -u elastic:<SUA_SENHA> -k -X GET https://localhost:9200/atas/_search
 ```
 
 🔍 Inteligência de Busca
