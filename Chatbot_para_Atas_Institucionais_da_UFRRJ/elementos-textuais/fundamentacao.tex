@@ -54,11 +54,12 @@ Singh, Joesph e Jabbar \cite{singh2019rulebased} descrevem um chatbot baseado em
 
 A escolha do tipo de chatbot a ser utilizado neste trabalho deve considerar as características do problema apresentado: um sistema de busca em um conjunto fechado de documentos, sendo eles as atas da UFRRJ, sem necessidade de geração de conteúdo novo, com baixo orçamento disponível para licenciamento de ferramentas e que precisa se integrar a um motor de busca textual (Elasticsearch \cite{IBMElasticsearch}) por meio de chamadas a uma API. A Tabela~\ref{tab:comparativo-chatbots} resume, para cada tipo de chatbot apresentado na Seção~\ref{sec:tipos-chatbots}, a adequação a esses requisitos.
 
+\begin{landscape}
 \begin{table}[H]
   \centering
   \caption{Comparativo entre tipos de chatbot e os requisitos do projeto}
   \label{tab:comparativo-chatbots}
-  \begin{tabular}{p{3.0cm}p{4.3cm}p{2.0cm}p{3.5cm}}
+  \begin{tabular}{p{4cm}p{7.5cm}p{3cm}p{6cm}}
     \hline
     \textbf{Tipo} & \textbf{Adequação ao escopo fechado} & \textbf{Custo de licenciamento} & \textbf{Integração com API externa (Elasticsearch)} \\
     \hline
@@ -71,6 +72,7 @@ A escolha do tipo de chatbot a ser utilizado neste trabalho deve considerar as c
     \hline
   \end{tabular}
 \end{table}
+\end{landscape}
 
 Diante desses requisitos, optou-se pelo chatbot baseado em regras, implementado na plataforma Botpress v12 \cite{botpress-about, botpress-docs}. Essa escolha decorre de três fatores combinados: (i) o escopo do problema é fechado e o usuário busca atas dentro de um conjunto de critérios pré-definidos (departamento, disciplina, docentes, discente, data, processo/edital/ata, progressão funcional e outros assuntos), o que se encaixa em um fluxo de diálogo guiado por regras; (ii) o Botpress v12 é uma ferramenta de código aberto, sem custo de licenciamento, podendo ser hospedada localmente \cite{botpress-about}; e (iii) a plataforma permite a execução de ações em JavaScript dentro do fluxo de conversa, viabilizando a integração com a API REST do indexador Node.js, que por sua vez consulta o Elasticsearch \cite{IBMElasticsearch}. Chatbots impulsionados por IA, de IA generativa ou híbridos poderiam oferecer maior flexibilidade na interpretação de perguntas livres, mas introduziriam custo de licenciamento de modelos de linguagem e risco de geração de respostas não embasadas no conteúdo das atas.
 
