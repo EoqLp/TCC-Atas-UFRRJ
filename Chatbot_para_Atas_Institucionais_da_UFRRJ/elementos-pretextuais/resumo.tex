@@ -1,0 +1,22 @@
+\renewcommand{\abstractname}{Resumo}
+
+Este trabalho propõe um chatbot baseado em regras para auxiliar discentes, docentes
+e o público acadêmico em geral na busca de atas institucionais da Universidade
+Federal Rural do Rio de Janeiro (UFRRJ). O crescimento contínuo do volume de
+atas torna a busca manual cada vez mais custosa e para resolver esse problema,
+propõe-se um roteiro guiado de diálogo que conduz o usuário por um conjunto fechado
+de critérios de busca, sendo eles: departamento, disciplina, docentes, discentes, período,
+processo/edital e progressão funcional, além de um campo de assuntos gerais,
+traduzindo cada resposta em um parâmetro estruturado de uma consulta ao
+Elasticsearch. A solução foi implementada na plataforma Botpress v12, integrada
+a um indexador desenvolvido em Node.js responsável por extrair o conteúdo de
+arquivos PDF e montar dinamicamente a consulta em formato Query DSL, além de um bot para o Discord como canal alternativo de interação. Os documentos
+retornados são ranqueados pelo algoritmo BM25 e são apresentadas ao usuário as 3 atas com maior relevância. Os resultados indicam que o roteiro guiado de diálogo constitui uma solução
+viável para a geração de consultas estruturadas a partir de interações em linguagem
+natural, deixando claro o que pode ou não ser buscado e dispensando
+do usuário qualquer conhecimento sobre a organização do índice ou a sintaxe de
+consulta do motor de busca.
+
+\textbf{Palavras-chave:} chatbot baseado em regras; recuperação da informação;
+Elasticsearch; atas institucionais; Botpress.
+

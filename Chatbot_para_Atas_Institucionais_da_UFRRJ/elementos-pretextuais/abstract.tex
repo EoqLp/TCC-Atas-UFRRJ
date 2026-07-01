@@ -1,0 +1,22 @@
+\renewcommand{\abstractname}{Abstract}
+This work proposes a rule-based chatbot to assist students, faculty, and the
+broader academic community in searching institutional meeting minutes (atas) of
+the Federal Rural University of Rio de Janeiro (UFRRJ). The continuous growth in
+the volume of minutes makes manual search increasingly costly, and to address this
+problem, a guided dialogue script is proposed that walks the user through a closed
+set of search criteria, namely: department, course, faculty members, students, time
+period, process/notice number, and academic progression, plus a general-subject
+field, translating each answer into a structured parameter of a query sent to
+Elasticsearch. The solution was implemented on the Botpress v12 platform,
+integrated with an indexer built in Node.js responsible for extracting content
+from PDF files and dynamically assembling the query in Query DSL format, along
+with a Discord bot offered as an alternative interaction channel. Returned
+documents are ranked using the BM25 algorithm, and the 3 most relevant minutes
+are presented to the user. The results indicate that the guided dialogue script
+constitutes a viable solution for generating structured queries from natural
+language interactions, explicitly delimiting what can and cannot be searched
+while requiring no knowledge from the user about the index's organization or the
+search engine's query syntax.
+
+\textbf{Keywords:} rule-based chatbot; information retrieval; Elasticsearch;
+institutional meeting minutes; Botpress.
